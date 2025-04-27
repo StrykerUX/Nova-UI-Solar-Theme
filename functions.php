@@ -26,7 +26,7 @@ require_once NOVA_UI_DIR . '/inc/helpers.php';
 require_once NOVA_UI_DIR . '/inc/template-functions.php';
 require_once NOVA_UI_DIR . '/inc/template-tags.php';
 require_once NOVA_UI_DIR . '/inc/customizer.php';
-require_once NOVA_UI_DIR . '/inc/class-nova-ui-walker-nav-menu.php';
+require_once NOVA_UI_DIR . '/inc/menu-integration.php'; // Integración mejorada con menús de WordPress
 
 if (!function_exists('nova_ui_setup')) :
     /**
@@ -155,15 +155,19 @@ function nova_ui_scripts() {
     
     // Cargar estilo visual específico
     wp_enqueue_style('nova-ui-' . $active_style, NOVA_UI_ASSETS_URI . '/css/themes/' . $active_style . '.css', array('nova-ui-base'), NOVA_UI_VERSION);
-    // Después de cargar el estilo visual específico
+    
+    // Cargar estilos mejorados del sidebar
     wp_enqueue_style('nova-ui-soft-neo-brutalism-sidebar', NOVA_UI_ASSETS_URI . '/css/themes/soft-neo-brutalism-sidebar.css', array('nova-ui-' . $active_style), NOVA_UI_VERSION);
+    
     // JavaScript principal
     wp_enqueue_script('nova-ui-main', NOVA_UI_ASSETS_URI . '/js/main.js', array('jquery'), NOVA_UI_VERSION, true);
     
     // Script para cambio de tema claro/oscuro
     wp_enqueue_script('nova-ui-theme-switcher', NOVA_UI_ASSETS_URI . '/js/theme-switcher.js', array('jquery'), NOVA_UI_VERSION, true);
-    // Después de cargar el script para cambio de tema claro/oscuro
+    
+    // Script mejorado para el sidebar
     wp_enqueue_script('nova-ui-sidebar-enhanced', NOVA_UI_ASSETS_URI . '/js/sidebar-enhanced.js', array('jquery'), NOVA_UI_VERSION, true);
+    
     // Pasar datos al JavaScript
     wp_localize_script('nova-ui-main', 'novaUIData', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
@@ -231,7 +235,7 @@ add_filter('wp_nav_menu_objects', 'nova_ui_add_menu_parent_class');
  * Añadir clases a los elementos <li> del menú
  */
 function nova_ui_add_menu_li_class($classes, $item, $args, $depth) {
-    if ($args->theme_location == 'sidebar') {
+    if (isset($args->theme_location) && $args->theme_location == 'sidebar') {
         $classes[] = 'side-nav-item';
     }
     
@@ -243,52 +247,15 @@ add_filter('nav_menu_css_class', 'nova_ui_add_menu_li_class', 10, 4);
  * Añadir clases a los enlaces <a> del menú
  */
 function nova_ui_add_menu_link_class($atts, $item, $args, $depth) {
-    if ($args->theme_location == 'sidebar') {
+    if (isset($args->theme_location) && $args->theme_location == 'sidebar') {
         $atts['class'] = isset($atts['class']) ? $atts['class'] . ' side-nav-link' : 'side-nav-link';
-    } elseif ($args->theme_location == 'footer') {
+    } elseif (isset($args->theme_location) && $args->theme_location == 'footer') {
         $atts['class'] = isset($atts['class']) ? $atts['class'] . ' list-inline-item' : 'list-inline-item';
     }
     
     return $atts;
 }
 add_filter('nav_menu_link_attributes', 'nova_ui_add_menu_link_class', 10, 4);
-
-/**
- * Añadir icono a los elementos del menú lateral
- */
-function nova_ui_add_menu_icon($title, $item, $args, $depth) {
-    // Solo procesar para el menú lateral y primer nivel
-    if ($args->theme_location !== 'sidebar' || $depth > 0) {
-        return $title;
-    }
-    
-    // Buscar clases que comiencen con 'ti-' (Tabler Icons)
-    $icon_class = '';
-    foreach ($item->classes as $class) {
-        if (strpos($class, 'ti-') === 0) {
-            $icon_class = $class;
-            break;
-        }
-    }
-    
-    // Si no hay una clase de icono específica, usar un icono genérico
-    if (empty($icon_class)) {
-        $icon_class = 'ti-circle';
-    }
-    
-    // Estructura del icono y texto del menú
-    $menu_icon = '<span class="menu-icon"><i class="ti ' . esc_attr($icon_class) . '"></i></span>';
-    $menu_text = '<span class="menu-text">' . $title . '</span>';
-    
-    // Si el elemento tiene hijos, agregar flecha
-    $menu_arrow = '';
-    if (in_array('has-children', $item->classes)) {
-        $menu_arrow = '<span class="menu-arrow"></span>';
-    }
-    
-    return $menu_icon . $menu_text . $menu_arrow;
-}
-add_filter('nav_menu_item_title', 'nova_ui_add_menu_icon', 10, 4);
 
 /**
  * Registrar una página de opciones del tema en el panel de administración
