@@ -1,6 +1,7 @@
 <?php
 /**
  * Barra lateral mejorada para el dashboard según el diseño Soft Neo-Brutalism
+ * Con integración mejorada para el sistema de menús de WordPress
  *
  * @package Nova_UI_Solar
  */
@@ -34,21 +35,23 @@ $collapsed_class = ($sidebar_mode === 'collapsed') ? 'sidebar-collapsed' : '';
         </div>
 
         <div class="sidebar-menu">
-            <?php if (has_nav_menu('sidebar')) : ?>
-                <?php 
+            <?php
+            // Verificar si el menú está asignado a la ubicación 'sidebar'
+            if (has_nav_menu('sidebar')) {
+                // Usar el Walker personalizado para el menú
                 wp_nav_menu(array(
                     'theme_location' => 'sidebar',
                     'menu_class'     => 'nav',
                     'container'      => false,
                     'depth'          => 2,
-                    'walker'         => new Nova_UI_Walker_Nav_Menu(),
+                    'walker'         => new Nova_UI_Sidebar_Menu_Walker(),
                 ));
+            } else {
+                // Menú predeterminado estilizado según el Soft Neo-Brutalism
                 ?>
-            <?php else : ?>
-                <!-- Menú predeterminado estilizado según el Soft Neo-Brutalism -->
                 <ul class="nav">
                     <li class="nav-item active">
-                        <a href="#" class="nav-link soft-neo-nav-link active">
+                        <a href="<?php echo esc_url(home_url('/')); ?>" class="nav-link soft-neo-nav-link active">
                             <span class="menu-icon"><i class="ti ti-home"></i></span>
                             <span class="menu-text"><?php esc_html_e('Dashboard', 'nova-ui-solar'); ?></span>
                         </a>
@@ -102,7 +105,21 @@ $collapsed_class = ($sidebar_mode === 'collapsed') ? 'sidebar-collapsed' : '';
                         </ul>
                     </li>
                 </ul>
-            <?php endif; ?>
+            <?php } ?>
+            
+            <?php
+            // Mensaje para administradores cuando no hay un menú asignado
+            if (is_user_logged_in() && current_user_can('edit_theme_options') && !has_nav_menu('sidebar')) {
+                ?>
+                <div class="sidebar-menu-notice">
+                    <p><?php _e('No hay un menú asignado a la ubicación "Menú Lateral".', 'nova-ui-solar'); ?></p>
+                    <a href="<?php echo esc_url(admin_url('nav-menus.php?action=locations')); ?>" class="sidebar-menu-notice-link">
+                        <?php _e('Asignar un menú ahora', 'nova-ui-solar'); ?>
+                    </a>
+                </div>
+                <?php
+            }
+            ?>
         </div>
 
         <div class="sidebar-footer">
