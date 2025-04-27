@@ -1,0 +1,315 @@
+/**
+ * Estilos específicos para el sidebar en el tema Soft Neo-Brutalism
+ * Basado en el diseño del artifact Soft Neo-Brutalist Dashboard
+ */
+
+/* Variables específicas para el sidebar */
+:root {
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 70px;
+  --sidebar-bg: var(--nova-bg-card);
+  --sidebar-border: 2px solid var(--nova-border-color);
+  --sidebar-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+  --soft-neo-shadow: 6px 6px 0 rgba(0, 0, 0, 0.1);
+  --soft-neo-border-radius: 8px;
+}
+
+/* Ajustes para tema oscuro */
+[data-theme="dark"] {
+  --sidebar-bg: #343A5E;
+  --sidebar-border: 2px solid #3F4577;
+  --sidebar-shadow: none;
+  --soft-neo-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos generales para el sidebar */
+.soft-neo-brutalism.sidebar {
+  background-color: var(--sidebar-bg);
+  border-right: var(--sidebar-border);
+  box-shadow: var(--sidebar-shadow);
+  width: var(--sidebar-width);
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1030;
+  transition: width 0.3s ease;
+  font-family: var(--nova-font-family-sans);
+}
+
+.soft-neo-brutalism.sidebar.sidebar-collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+/* Encabezado del sidebar */
+.soft-neo-brutalism .sidebar-brand {
+  height: 70px;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: var(--sidebar-border);
+}
+
+/* Logo */
+.soft-neo-brutalism .logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.soft-neo-brutalism .logo-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--nova-primary);
+  color: white;
+  border-radius: var(--soft-neo-border-radius);
+  box-shadow: var(--soft-neo-shadow);
+  margin-right: 12px;
+  transition: all 0.3s ease;
+}
+
+.soft-neo-brutalism .logo-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--nova-text-color);
+  transition: opacity 0.3s ease;
+}
+
+.soft-neo-brutalism.sidebar-collapsed .logo-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+/* Botón para alternar sidebar */
+.soft-neo-brutalism .sidebar-toggle {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  background-color: var(--nova-bg-card);
+  border: 2px solid var(--nova-border-color);
+  border-radius: var(--soft-neo-border-radius);
+  transition: transform 0.2s ease;
+}
+
+.soft-neo-brutalism .sidebar-toggle:hover {
+  transform: translateY(-2px);
+}
+
+/* Menú de navegación */
+.soft-neo-brutalism .sidebar-menu {
+  padding: 1.5rem 0;
+  overflow-y: auto;
+}
+
+.soft-neo-brutalism .nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.soft-neo-brutalism .nav-item {
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+/* Enlaces del menú */
+.soft-neo-brutalism .soft-neo-nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: var(--nova-text-color);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  border-radius: 0;
+}
+
+.soft-neo-brutalism .soft-neo-nav-link:hover {
+  color: var(--nova-primary);
+  background-color: rgba(var(--nova-primary-rgb), 0.05);
+  transform: translateY(-2px);
+}
+
+/* Enlace activo */
+.soft-neo-brutalism .soft-neo-nav-link.active {
+  color: var(--nova-dark);
+  background-color: var(--nova-gray-100);
+  border-radius: var(--soft-neo-border-radius);
+  border: 2px solid var(--nova-border-color);
+  box-shadow: var(--soft-neo-shadow);
+  transform: translateY(-2px);
+}
+
+[data-theme="dark"] .soft-neo-brutalism .soft-neo-nav-link.active {
+  color: var(--nova-light);
+  background-color: #3F4577;
+  border: 2px solid #4E56A6;
+  box-shadow: 0 0 0 2px #4E56A6;
+}
+
+/* Íconos en los enlaces */
+.soft-neo-brutalism .menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  margin-right: 12px;
+  transition: margin 0.3s ease;
+}
+
+.soft-neo-brutalism .menu-icon i {
+  font-size: 18px;
+}
+
+.soft-neo-brutalism.sidebar-collapsed .menu-icon {
+  margin-right: 0;
+}
+
+.soft-neo-brutalism .menu-text {
+  transition: opacity 0.3s ease;
+  flex: 1;
+}
+
+.soft-neo-brutalism.sidebar-collapsed .menu-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+/* Enlace con submenú */
+.soft-neo-brutalism .soft-neo-nav-link.has-dropdown {
+  position: relative;
+}
+
+.soft-neo-brutalism .dropdown-indicator {
+  transition: transform 0.3s ease;
+}
+
+.soft-neo-brutalism .soft-neo-nav-link.has-dropdown[aria-expanded="true"] .dropdown-indicator {
+  transform: rotate(180deg);
+}
+
+/* Submenú */
+.soft-neo-brutalism .dropdown-menu {
+  list-style: none;
+  padding-left: 2.5rem;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+}
+
+.soft-neo-brutalism .dropdown-menu.show {
+  max-height: 500px;
+}
+
+.soft-neo-brutalism .soft-neo-dropdown-item {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--nova-text-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.soft-neo-brutalism .soft-neo-dropdown-item:hover {
+  color: var(--nova-primary);
+  transform: translateX(5px);
+}
+
+/* Pie del sidebar */
+.soft-neo-brutalism .sidebar-footer {
+  padding: 1rem;
+  border-top: var(--sidebar-border);
+  margin-top: auto;
+}
+
+/* Tarjeta de estado del sistema */
+.soft-neo-brutalism .system-status .status-card {
+  background-color: var(--nova-bg-card);
+  border: 2px solid var(--nova-border-color);
+  border-radius: var(--soft-neo-border-radius);
+  box-shadow: var(--soft-neo-shadow);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.soft-neo-brutalism .status-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--nova-accent);
+  color: black;
+  border-radius: var(--soft-neo-border-radius);
+  margin-right: 1rem;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.soft-neo-brutalism .status-info {
+  flex: 1;
+}
+
+.soft-neo-brutalism .status-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--nova-text-color);
+}
+
+.soft-neo-brutalism .status-text {
+  font-size: 0.875rem;
+  color: var(--nova-text-muted);
+  margin: 0;
+}
+
+/* Responsividad */
+@media (max-width: 992px) {
+  .soft-neo-brutalism.sidebar {
+    left: -260px;
+    transition: left 0.3s ease;
+  }
+  
+  .soft-neo-brutalism.sidebar.open {
+    left: 0;
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
+
+/* Animaciones */
+.soft-neo-brutalism .nav-item {
+  animation: softNeoEntrance 0.5s ease-out forwards;
+  animation-delay: calc(var(--item-index, 0) * 0.05s);
+  opacity: 0;
+}
+
+@keyframes softNeoEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Personalización para diferentes estilos visuales dentro del Soft Neo-Brutalism */
+.soft-neo-brutalism .logo-icon i {
+  color: white;
+}
+
+.soft-neo-brutalism .soft-neo-nav-link.active .menu-icon i {
+  color: var(--nova-primary);
+}
