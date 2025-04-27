@@ -1,0 +1,383 @@
+/**
+ * Soft Neo-Brutalism style for Nova UI Solar Theme
+ * Basado en el diseño Soft Neo-Brutalist Dashboard
+ */
+
+:root {
+  /* Colores principales */
+  --nova-primary: #FF596A;
+  --nova-secondary: #4ECDC4;
+  --nova-accent: #FFE66D;
+  --nova-success: #7BC950;
+  --nova-warning: #FFA552;
+  --nova-error: #F76F8E;
+  --nova-dark: #505168;
+  --nova-light: #F7F9F9;
+  
+  /* Variantes para RGB */
+  --nova-primary-rgb: 255, 89, 106;
+  --nova-secondary-rgb: 78, 205, 196;
+  --nova-accent-rgb: 255, 230, 109;
+  
+  /* Paleta de grises */
+  --nova-gray-100: #F7F7F7;
+  --nova-gray-200: #E1E1E1;
+  --nova-gray-300: #CFCFCF;
+  --nova-gray-400: #B1B1B1;
+  --nova-gray-500: #9E9E9E;
+  --nova-gray-600: #7E7E7E;
+  --nova-gray-700: #626262;
+  --nova-gray-800: #515151;
+  --nova-gray-900: #313131;
+  
+  /* Estilos específicos para Soft Neo-Brutalism */
+  --soft-neo-shadow: 6px 6px 0 rgba(0, 0, 0, 0.1);
+  --soft-neo-border-radius: 8px;
+  --soft-neo-border: 2px solid rgba(0, 0, 0, 0.1);
+  
+  /* Fuentes */
+  --nova-font-family-sans: 'Jost', 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Ajustes para tema claro */
+[data-theme="light"] {
+  --nova-bg-body: var(--nova-light);
+  --nova-bg-card: #FFFFFF;
+  --nova-text-color: var(--nova-dark);
+  --nova-border-color: var(--nova-gray-200);
+  --soft-neo-shadow: 6px 6px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustes para tema oscuro */
+[data-theme="dark"] {
+  --nova-primary: #FF6B6B;
+  --nova-secondary: #4ECDC4;
+  --nova-accent: #FFE66D;
+  --nova-bg-body: #2A2D45;
+  --nova-bg-card: #343A5E;
+  --nova-text-color: var(--nova-light);
+  --nova-border-color: #3F4577;
+  --soft-neo-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+  --soft-neo-border: 2px solid #3F4577;
+}
+
+/* Estilos generales */
+.soft-neo-brutalism {
+  font-family: var(--nova-font-family-sans);
+}
+
+/* Tarjetas */
+.soft-neo-brutalism .card {
+  border-radius: var(--soft-neo-border-radius);
+  border: var(--soft-neo-border);
+  box-shadow: var(--soft-neo-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.soft-neo-brutalism .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Botones */
+.soft-neo-brutalism .btn {
+  border-radius: var(--soft-neo-border-radius);
+  border: var(--soft-neo-border);
+  box-shadow: var(--soft-neo-shadow);
+  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.soft-neo-brutalism .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+.soft-neo-brutalism .btn:active {
+  transform: translateY(0);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Iconos de estadísticas */
+.soft-neo-brutalism .stat-icon {
+  border-radius: var(--soft-neo-border-radius);
+  box-shadow: var(--soft-neo-shadow);
+}
+
+/* Selector de estilo */
+.soft-neo-brutalism .style-list li.active {
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Barra lateral */
+.soft-neo-brutalism.sidebar {
+  background-color: var(--nova-bg-card);
+  border-right: var(--soft-neo-border);
+}
+
+.soft-neo-brutalism .sidebar-brand {
+  border-bottom: var(--soft-neo-border);
+}
+
+.soft-neo-brutalism .logo-icon {
+  border-radius: var(--soft-neo-border-radius);
+  box-shadow: var(--soft-neo-shadow);
+}
+
+.soft-neo-brutalism .nav-link.active {
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: var(--soft-neo-border-radius);
+  transform: translateY(-2px);
+}
+
+.soft-neo-brutalism .sidebar-footer {
+  border-top: var(--soft-neo-border);
+}
+
+.soft-neo-brutalism .system-status .status-card {
+  border-radius: var(--soft-neo-border-radius);
+  border: var(--soft-neo-border);
+  box-shadow: var(--soft-neo-shadow);
+  padding: var(--nova-spacing-sm);
+  display: flex;
+  align-items: center;
+}
+
+.soft-neo-brutalism .status-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--nova-accent);
+  color: #000;
+  border-radius: var(--soft-neo-border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: var(--nova-spacing-sm);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Topbar */
+.soft-neo-brutalism.topbar {
+  background-color: var(--nova-bg-card);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.soft-neo-brutalism .search-input-group {
+  border-radius: var(--soft-neo-border-radius);
+  border: var(--soft-neo-border);
+}
+
+.soft-neo-brutalism .notification-btn,
+.soft-neo-brutalism .theme-toggle-btn,
+.soft-neo-brutalism .user-dropdown-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--soft-neo-border-radius);
+  border: var(--soft-neo-border);
+  background-color: var(--nova-bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: var(--nova-spacing-sm);
+  position: relative;
+}
+
+.soft-neo-brutalism .notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--nova-primary);
+  color: white;
+  font-size: 10px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.soft-neo-brutalism .user-dropdown-toggle {
+  width: auto;
+  padding: 0 var(--nova-spacing-sm);
+}
+
+.soft-neo-brutalism .user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: var(--nova-spacing-sm);
+}
+
+/* Dashboard específicos */
+.soft-neo-brutalism .dashboard-wrapper {
+  padding-top: var(--nova-spacing-md);
+}
+
+.soft-neo-brutalism .stat-card {
+  position: relative;
+}
+
+.soft-neo-brutalism .stat-card .card-body {
+  position: relative;
+  z-index: 2;
+}
+
+/* Elementos interactivos */
+.soft-neo-brutalism .form-control {
+  border-radius: var(--soft-neo-border-radius);
+  border: var(--soft-neo-border);
+}
+
+.soft-neo-brutalism .form-control:focus {
+  box-shadow: 4px 4px 0 rgba(var(--nova-primary-rgb), 0.1);
+}
+
+.soft-neo-brutalism .form-select {
+  border-radius: var(--soft-neo-border-radius);
+  border: var(--soft-neo-border);
+}
+
+/* Tarjetas de enlace rápido */
+.soft-neo-brutalism .link-item {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: var(--nova-spacing-sm);
+  border-radius: var(--soft-neo-border-radius);
+  margin-bottom: var(--nova-spacing-sm);
+  border: var(--soft-neo-border);
+}
+
+.soft-neo-brutalism .link-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--soft-neo-shadow);
+}
+
+/* Chat */
+.soft-neo-brutalism .chat-content {
+  border-radius: var(--soft-neo-border-radius);
+  border: var(--soft-neo-border);
+  box-shadow: var(--soft-neo-shadow);
+}
+
+.soft-neo-brutalism .chat-avatar {
+  box-shadow: var(--soft-neo-shadow);
+}
+
+/* Elementos de tareas */
+.soft-neo-brutalism .task-item {
+  padding: var(--nova-spacing-sm);
+  border-radius: var(--soft-neo-border-radius);
+  margin-bottom: var(--nova-spacing-sm);
+  border: var(--soft-neo-border);
+  transition: transform 0.2s ease;
+}
+
+.soft-neo-brutalism .task-item:hover {
+  transform: translateY(-2px);
+}
+
+/* Badges */
+.soft-neo-brutalism .badge {
+  border-radius: var(--soft-neo-border-radius);
+  padding: 0.25em 0.75em;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Progress bars */
+.soft-neo-brutalism .progress {
+  border-radius: var(--soft-neo-border-radius);
+  border: var(--soft-neo-border);
+  background-color: var(--nova-gray-200);
+  overflow: hidden;
+}
+
+.soft-neo-brutalism .progress-bar {
+  border-radius: 0;
+}
+
+/* Plan info cards */
+.soft-neo-brutalism .plan-info-card {
+  border-radius: var(--soft-neo-border-radius);
+  border: var(--soft-neo-border);
+  box-shadow: var(--soft-neo-shadow);
+}
+
+/* Sistema de cuadrícula */
+.soft-neo-brutalism .row > * {
+  margin-bottom: var(--nova-spacing-md);
+}
+
+/* Estilos adicionales para dark mode */
+.soft-neo-brutalism[data-theme="dark"] .card {
+  background-color: var(--nova-bg-card);
+}
+
+.soft-neo-brutalism[data-theme="dark"] .btn-light {
+  background-color: var(--nova-bg-card);
+  color: var(--nova-text-color);
+}
+
+/* Elementos decorativos distintivos del estilo Soft Neo-Brutalism */
+
+/* Líneas decorativas */
+.soft-neo-brutalism .soft-neo-decorative-line {
+  height: 3px;
+  background: linear-gradient(to right, var(--nova-primary), var(--nova-secondary));
+  border-radius: 1.5px;
+  margin: var(--nova-spacing-md) 0;
+}
+
+/* Animación suave al cargar elementos */
+.soft-neo-brutalism .card,
+.soft-neo-brutalism .btn,
+.soft-neo-brutalism .stat-card {
+  animation: softNeoEntrance 0.5s ease-out forwards;
+}
+
+@keyframes softNeoEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Puntos decorativos */
+.soft-neo-brutalism .soft-neo-dots {
+  display: flex;
+  margin: var(--nova-spacing-sm) 0;
+}
+
+.soft-neo-brutalism .soft-neo-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.soft-neo-brutalism .soft-neo-dot:nth-child(1) {
+  background-color: var(--nova-primary);
+}
+
+.soft-neo-brutalism .soft-neo-dot:nth-child(2) {
+  background-color: var(--nova-secondary);
+}
+
+.soft-neo-brutalism .soft-neo-dot:nth-child(3) {
+  background-color: var(--nova-accent);
+}
+
+/* Efecto hover distintivo */
+.soft-neo-brutalism .btn:hover,
+.soft-neo-brutalism .card:hover {
+  transform: translateY(-4px) rotate(-1deg);
+}
+
+/* Transiciones suaves */
+.soft-neo-brutalism * {
+  transition: all 0.3s ease;
+}
