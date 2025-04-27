@@ -155,13 +155,15 @@ function nova_ui_scripts() {
     
     // Cargar estilo visual específico
     wp_enqueue_style('nova-ui-' . $active_style, NOVA_UI_ASSETS_URI . '/css/themes/' . $active_style . '.css', array('nova-ui-base'), NOVA_UI_VERSION);
-    
+    // Después de cargar el estilo visual específico
+    wp_enqueue_style('nova-ui-soft-neo-brutalism-sidebar', NOVA_UI_ASSETS_URI . '/css/themes/soft-neo-brutalism-sidebar.css', array('nova-ui-' . $active_style), NOVA_UI_VERSION);
     // JavaScript principal
     wp_enqueue_script('nova-ui-main', NOVA_UI_ASSETS_URI . '/js/main.js', array('jquery'), NOVA_UI_VERSION, true);
     
     // Script para cambio de tema claro/oscuro
     wp_enqueue_script('nova-ui-theme-switcher', NOVA_UI_ASSETS_URI . '/js/theme-switcher.js', array('jquery'), NOVA_UI_VERSION, true);
-    
+    // Después de cargar el script para cambio de tema claro/oscuro
+    wp_enqueue_script('nova-ui-sidebar-enhanced', NOVA_UI_ASSETS_URI . '/js/sidebar-enhanced.js', array('jquery'), NOVA_UI_VERSION, true);
     // Pasar datos al JavaScript
     wp_localize_script('nova-ui-main', 'novaUIData', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
