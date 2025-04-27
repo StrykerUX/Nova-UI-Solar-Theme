@@ -81,37 +81,45 @@ class Nova_UI_Sidebar_Menu_Walker extends Walker_Nav_Menu {
         
         // Obtener icono del menú (si existe)
         $icon_class = '';
-        foreach ($classes as $class) {
-            if (strpos($class, 'ti-') === 0) {
-                $icon_class = $class;
-                break;
-            }
-        }
         
-        // Si no hay icono específico, usar uno predeterminado según la etiqueta
-        if (empty($icon_class)) {
-            // Asociación inteligente de iconos según el título del menú
-            $title = strtolower($item->title);
-            if (strpos($title, 'dash') !== false) {
-                $icon_class = 'ti-home';
-            } elseif (strpos($title, 'analy') !== false) {
-                $icon_class = 'ti-chart-bar';
-            } elseif (strpos($title, 'chat') !== false) {
-                $icon_class = 'ti-message-circle';
-            } elseif (strpos($title, 'link') !== false || strpos($title, 'enlace') !== false) {
-                $icon_class = 'ti-link';
-            } elseif (strpos($title, 'doc') !== false) {
-                $icon_class = 'ti-file-text';
-            } elseif (strpos($title, 'calendar') !== false || strpos($title, 'calendario') !== false) {
-                $icon_class = 'ti-calendar';
-            } elseif (strpos($title, 'project') !== false || strpos($title, 'proyecto') !== false) {
-                $icon_class = 'ti-briefcase';
-            } elseif (strpos($title, 'setting') !== false || strpos($title, 'config') !== false) {
-                $icon_class = 'ti-settings';
-            } elseif (strpos($title, 'user') !== false || strpos($title, 'usuario') !== false) {
-                $icon_class = 'ti-user';
-            } else {
-                $icon_class = 'ti-circle'; // Icono predeterminado
+        // Primero buscar en meta personalizado
+        $item_icon = get_post_meta($item->ID, '_menu_item_icon', true);
+        if (!empty($item_icon)) {
+            $icon_class = $item_icon;
+        } else {
+            // Buscar en las clases
+            foreach ($classes as $class) {
+                if (strpos($class, 'ti-') === 0) {
+                    $icon_class = $class;
+                    break;
+                }
+            }
+            
+            // Si aún no hay icono, usar uno predeterminado según la etiqueta
+            if (empty($icon_class)) {
+                // Asociación inteligente de iconos según el título del menú
+                $title = strtolower($item->title);
+                if (strpos($title, 'dash') !== false) {
+                    $icon_class = 'ti-home';
+                } elseif (strpos($title, 'analy') !== false) {
+                    $icon_class = 'ti-chart-bar';
+                } elseif (strpos($title, 'chat') !== false) {
+                    $icon_class = 'ti-message-circle';
+                } elseif (strpos($title, 'link') !== false || strpos($title, 'enlace') !== false) {
+                    $icon_class = 'ti-link';
+                } elseif (strpos($title, 'doc') !== false) {
+                    $icon_class = 'ti-file-text';
+                } elseif (strpos($title, 'calendar') !== false || strpos($title, 'calendario') !== false) {
+                    $icon_class = 'ti-calendar';
+                } elseif (strpos($title, 'project') !== false || strpos($title, 'proyecto') !== false) {
+                    $icon_class = 'ti-briefcase';
+                } elseif (strpos($title, 'setting') !== false || strpos($title, 'config') !== false) {
+                    $icon_class = 'ti-settings';
+                } elseif (strpos($title, 'user') !== false || strpos($title, 'usuario') !== false) {
+                    $icon_class = 'ti-user';
+                } else {
+                    $icon_class = 'ti-circle'; // Icono predeterminado
+                }
             }
         }
         
@@ -162,7 +170,7 @@ class Nova_UI_Sidebar_Menu_Walker extends Walker_Nav_Menu {
 function nova_ui_sidebar_menu_help() {
     // Solo mostrar en la página de menús
     $screen = get_current_screen();
-    if ($screen->id !== 'nav-menus') {
+    if (!$screen || $screen->id !== 'nav-menus') {
         return;
     }
     
@@ -179,7 +187,7 @@ function nova_ui_sidebar_menu_help() {
         <ol>
             <li><?php _e('Crea un nuevo menú o edita uno existente', 'nova-ui-solar'); ?></li>
             <li><?php _e('Asígnalo a la ubicación "Menú Lateral"', 'nova-ui-solar'); ?></li>
-            <li><?php _e('Para añadir iconos, agrega la clase CSS correspondiente a un elemento del menú (p. ej. "ti-home")', 'nova-ui-solar'); ?></li>
+            <li><?php _e('Para añadir iconos, usa las "Clases CSS" de un elemento del menú (p. ej. "ti-home")', 'nova-ui-solar'); ?></li>
             <li><?php _e('Los iconos se asignarán automáticamente si no se especifica una clase de icono', 'nova-ui-solar'); ?></li>
         </ol>
         <p><?php _e('Clases de iconos recomendadas:', 'nova-ui-solar'); ?> <code>ti-home</code>, <code>ti-chart-bar</code>, <code>ti-message-circle</code>, <code>ti-link</code>, <code>ti-file-text</code>, <code>ti-settings</code></p>
@@ -189,29 +197,66 @@ function nova_ui_sidebar_menu_help() {
 add_action('admin_notices', 'nova_ui_sidebar_menu_help');
 
 /**
+ * Agregar campos a la pantalla de opciones de Menús
+ */
+function nova_ui_add_menu_fields() {
+    // Verificar que estamos en la página de menús
+    $screen = get_current_screen();
+    if (!$screen || $screen->id !== 'nav-menus') {
+        return;
+    }
+    
+    // Agregar CSS personalizado para mejorar la apariencia del campo de icono
+    ?>
+    <style type="text/css">
+        .field-icon {
+            margin: 5px 0;
+            padding: 5px;
+            background: #f9f9f9;
+            border: 1px solid #e5e5e5;
+            border-radius: 3px;
+        }
+        .field-icon label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .field-icon input {
+            width: 100%;
+            padding: 5px;
+        }
+        .field-icon .description {
+            font-style: italic;
+            color: #666;
+            margin-top: 2px;
+            display: block;
+        }
+    </style>
+    <?php
+}
+add_action('admin_head-nav-menus.php', 'nova_ui_add_menu_fields');
+
+/**
  * Añadir campos personalizados a los elementos del menú
  */
-function nova_ui_sidebar_menu_fields($item) {
-    // Campo para el icono
-    $item_icon = get_post_meta($item->ID, '_menu_item_icon', true);
+function nova_ui_sidebar_menu_fields($id, $item, $depth, $args) {
+    $icon = get_post_meta($item->ID, '_menu_item_icon', true);
     ?>
     <p class="field-icon description description-wide">
         <label for="edit-menu-item-icon-<?php echo $item->ID; ?>">
             <?php _e('Icono (clase Tabler Icons)', 'nova-ui-solar'); ?><br>
-            <input type="text" id="edit-menu-item-icon-<?php echo $item->ID; ?>" class="widefat code" name="menu-item-icon[<?php echo $item->ID; ?>]" value="<?php echo esc_attr($item_icon); ?>">
+            <input type="text" id="edit-menu-item-icon-<?php echo $item->ID; ?>" class="widefat" name="menu-item-icon[<?php echo $item->ID; ?>]" value="<?php echo esc_attr($icon); ?>">
             <span class="description"><?php _e('Ejemplo: ti-home, ti-chart-bar, ti-message-circle', 'nova-ui-solar'); ?></span>
         </label>
     </p>
     <?php
-    return $item;
 }
-add_filter('wp_setup_nav_menu_item', 'nova_ui_sidebar_menu_fields');
+add_action('wp_nav_menu_item_custom_fields', 'nova_ui_sidebar_menu_fields', 10, 4);
 
 /**
  * Guardar campos personalizados de elementos del menú
  */
 function nova_ui_sidebar_menu_save($menu_id, $menu_item_db_id) {
-    if (isset($_POST['menu-item-icon'][$menu_item_db_id])) {
+    if (isset($_POST['menu-item-icon']) && isset($_POST['menu-item-icon'][$menu_item_db_id])) {
         $sanitized_data = sanitize_text_field($_POST['menu-item-icon'][$menu_item_db_id]);
         update_post_meta($menu_item_db_id, '_menu_item_icon', $sanitized_data);
     }
@@ -229,3 +274,40 @@ function nova_ui_sidebar_menu_item_classes($classes, $item) {
     return $classes;
 }
 add_filter('nav_menu_css_class', 'nova_ui_sidebar_menu_item_classes', 10, 2);
+
+/**
+ * Asegurar que se muestren los campos personalizados en el panel de menús
+ */
+function nova_ui_enable_menu_item_custom_fields() {
+    add_filter('wp_edit_nav_menu_walker', function() {
+        return 'Walker_Nav_Menu_Edit';
+    });
+}
+add_action('admin_init', 'nova_ui_enable_menu_item_custom_fields');
+
+/**
+ * Agregar información del menú al panel de administración
+ */
+function nova_ui_menu_admin_style() {
+    echo '<style>
+        .menu-item-icon-field {
+            padding: 10px;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        .menu-item-icon-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .menu-item-icon-field .description {
+            display: block;
+            margin-top: 3px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>';
+}
+add_action('admin_head', 'nova_ui_menu_admin_style');
