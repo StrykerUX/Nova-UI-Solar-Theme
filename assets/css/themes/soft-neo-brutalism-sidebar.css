@@ -121,7 +121,8 @@
 }
 
 /* Enlaces del menú */
-.soft-neo-brutalism .soft-neo-nav-link {
+.soft-neo-brutalism .soft-neo-nav-link,
+.soft-neo-brutalism .nav-link {
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
@@ -132,14 +133,16 @@
   border-radius: 0;
 }
 
-.soft-neo-brutalism .soft-neo-nav-link:hover {
+.soft-neo-brutalism .soft-neo-nav-link:hover,
+.soft-neo-brutalism .nav-link:hover {
   color: var(--nova-primary);
   background-color: rgba(var(--nova-primary-rgb), 0.05);
   transform: translateY(-2px);
 }
 
 /* Enlace activo */
-.soft-neo-brutalism .soft-neo-nav-link.active {
+.soft-neo-brutalism .soft-neo-nav-link.active,
+.soft-neo-brutalism .nav-link.active {
   color: var(--nova-dark);
   background-color: var(--nova-gray-100);
   border-radius: var(--soft-neo-border-radius);
@@ -148,7 +151,8 @@
   transform: translateY(-2px);
 }
 
-[data-theme="dark"] .soft-neo-brutalism .soft-neo-nav-link.active {
+[data-theme="dark"] .soft-neo-brutalism .soft-neo-nav-link.active,
+[data-theme="dark"] .soft-neo-brutalism .nav-link.active {
   color: var(--nova-light);
   background-color: #3F4577;
   border: 2px solid #4E56A6;
@@ -185,7 +189,8 @@
 }
 
 /* Enlace con submenú */
-.soft-neo-brutalism .soft-neo-nav-link.has-dropdown {
+.soft-neo-brutalism .soft-neo-nav-link.has-dropdown,
+.soft-neo-brutalism .nav-link.has-dropdown {
   position: relative;
 }
 
@@ -193,7 +198,8 @@
   transition: transform 0.3s ease;
 }
 
-.soft-neo-brutalism .soft-neo-nav-link.has-dropdown[aria-expanded="true"] .dropdown-indicator {
+.soft-neo-brutalism .soft-neo-nav-link.has-dropdown[aria-expanded="true"] .dropdown-indicator,
+.soft-neo-brutalism .nav-link.has-dropdown[aria-expanded="true"] .dropdown-indicator {
   transform: rotate(180deg);
 }
 
@@ -271,6 +277,37 @@
   margin: 0;
 }
 
+/* Mensaje para administradores cuando no hay un menú asignado */
+.soft-neo-brutalism .sidebar-menu-notice {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: rgba(var(--nova-primary-rgb), 0.1);
+  border-radius: var(--soft-neo-border-radius);
+  border: 1px solid var(--nova-primary);
+}
+
+.soft-neo-brutalism .sidebar-menu-notice p {
+  margin-bottom: 0.5rem;
+  color: var(--nova-text-color);
+}
+
+.soft-neo-brutalism .sidebar-menu-notice-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--nova-primary);
+  color: white;
+  border-radius: var(--soft-neo-border-radius);
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.soft-neo-brutalism .sidebar-menu-notice-link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--soft-neo-shadow);
+}
+
 /* Responsividad */
 @media (max-width: 992px) {
   .soft-neo-brutalism.sidebar {
@@ -305,11 +342,72 @@
   }
 }
 
-/* Personalización para diferentes estilos visuales dentro del Soft Neo-Brutalism */
-.soft-neo-brutalism .logo-icon i {
-  color: white;
+/* Overlay para móviles */
+#sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1025;
+  display: none;
 }
 
-.soft-neo-brutalism .soft-neo-nav-link.active .menu-icon i {
+@media (max-width: 992px) {
+  .soft-neo-brutalism.sidebar.open + #sidebar-overlay {
+    display: block;
+  }
+}
+
+/* Correcciones específicas para la integración con el sistema de menús de WordPress */
+.soft-neo-brutalism .nav-item {
+  margin-bottom: 0.5rem;
+  position: relative;
+  list-style: none;
+}
+
+.soft-neo-brutalism .nav-link,
+.soft-neo-brutalism .side-nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: var(--nova-text-color);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  border-radius: 0;
+}
+
+.soft-neo-brutalism .nav-link:hover,
+.soft-neo-brutalism .side-nav-link:hover {
   color: var(--nova-primary);
+  background-color: rgba(var(--nova-primary-rgb), 0.05);
+  transform: translateY(-2px);
+}
+
+/* Corrección para submenús */
+.soft-neo-brutalism .sub-menu {
+  list-style: none;
+  padding-left: 2.5rem;
+  overflow: hidden;
+  margin: 0;
+}
+
+.soft-neo-brutalism .sub-menu li {
+  margin-bottom: 0.3rem;
+}
+
+.soft-neo-brutalism .sub-menu a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--nova-text-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.soft-neo-brutalism .sub-menu a:hover {
+  color: var(--nova-primary);
+  transform: translateX(5px);
 }
