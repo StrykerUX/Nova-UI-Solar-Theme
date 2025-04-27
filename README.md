@@ -1,116 +1,82 @@
 # Nova UI Solar Theme
 
-Un tema WordPress modular con React integrado para aplicaciones SaaS, que permite seleccionar entre diferentes estilos visuales para paneles de administración.
+Un tema WordPress modular con múltiples estilos visuales (Neo-Brutalist, Soft Neo-Brutalist, Futurismo Minimalista, Cyberpunk) para aplicaciones SaaS y paneles de administración.
 
-![Nova UI Solar Theme](https://via.placeholder.com/1200x600?text=Nova+UI+Solar+Theme)
+## Estado actual del desarrollo
 
-## Descripción
+El tema está en fase inicial con la estructura básica implementada y el estilo Soft Neo-Brutalism funcional. Incluye:
 
-Nova UI Solar Theme es un tema WordPress innovador que integra React para crear interfaces de usuario modernas y altamente personalizables. A diferencia de las soluciones headless, este tema mantiene la estructura tradicional de WordPress mientras aprovecha el poder de React para componentes específicos.
+- Archivos base del tema WordPress
+- Plantilla de dashboard con elementos interactivos
+- Sistema de cambio entre estilos visuales
+- Selector de tema claro/oscuro
+- Estilo Soft Neo-Brutalism completo
 
-El tema incluye múltiples estilos visuales prediseñados que pueden ser seleccionados por el usuario:
-
-- **Neo-Brutalist**: Diseño audaz con bordes marcados y contrastes fuertes
-- **Soft Neo-Brutalist**: Una versión más suave del Neo-Brutalismo con sombras sutiles
-- **Futurismo Minimalista**: Interfaz elegante y minimalista con toques tecnológicos
-- **Cyberpunk**: Estética futurista con colores neón y efectos visuales llamativos
-
-## Características principales
-
-- **Sistema modular**: Arquitectura de componentes que facilita la extensibilidad
-- **React integrado**: Componentes React para interfaces dinámicas sin perder compatibilidad con WordPress
-- **Múltiples estilos visuales**: Cambia entre diferentes diseños con un solo clic
-- **Sistema de variables CSS**: Personalización avanzada mediante variables globales
-- **Biblioteca de componentes UI**: Botones, tarjetas, formularios y más con diseño consistente
-- **Modo claro/oscuro**: Soporte nativo para cambiar entre temas
-- **Diseño responsivo**: Optimizado para móviles, tablets y escritorio
-- **Compatible con plugins**: Funciona con WooCommerce y otros plugins populares
-- **Personalización sencilla**: Panel de administración intuitivo para configurar el tema
-
-## Tecnologías utilizadas
-
-- WordPress (PHP)
-- React
-- Webpack
-- Babel
-- SASS/CSS
-- Lucide Icons
-- Bootstrap (opcional)
+Próximos pasos: implementar los estilos restantes, mejorar la responsividad y añadir más plantillas específicas.
 
 ## Estructura del proyecto
 
 ```
 nova-ui-solar/
-├── assets/                      # Recursos estáticos compilados
-│   ├── css/                     # Estilos compilados
-│   ├── js/                      # JavaScript compilado
-│   └── images/                  # Imágenes 
-├── build/                       # Configuración de compilación
-│   ├── webpack.config.js        # Configuración de webpack
-│   └── babel.config.js          # Configuración de babel
-├── inc/                         # Funciones y clases PHP
-│   ├── customizer/              # Personalizador de WordPress
+├── assets/                      # Recursos estáticos
+│   ├── css/                     # Estilos CSS
+│   │   ├── base.css             # Estilos base compartidos
+│   │   └── themes/              # Estilos específicos por tema visual
+│   │       └── soft-neo-brutalism.css    # Estilo Soft Neo-Brutalism
+│   ├── js/                      # JavaScript
+│   │   ├── main.js              # Funcionalidad principal del tema
+│   │   └── theme-switcher.js    # Script para cambiar estilos visuales
+│   └── images/                  # Imágenes y recursos gráficos (pendiente)
+├── inc/                         # Funciones PHP adicionales
 │   ├── template-functions.php   # Funciones de plantilla
-│   └── theme-options.php        # Opciones del tema
-├── react-src/                   # Código fuente de React
-│   ├── components/              # Componentes reutilizables
-│   ├── context/                 # Context API de React
-│   ├── styles/                  # SASS y CSS
-│   └── dashboards/              # Implementaciones de los diferentes estilos
-├── template-parts/              # Partes reutilizables de la plantilla
-│   ├── content/                 # Plantillas de contenido
-│   └── dashboard/               # Componentes del dashboard
-├── page-templates/              # Plantillas de página
-├── functions.php                # Funcionalidad principal
+│   └── [otros archivos .php]    # Archivos auxiliares (pendientes)
+├── page-templates/              # Plantillas de página especializadas
+│   └── dashboard.php            # Plantilla para el dashboard principal
+├── template-parts/              # Componentes reutilizables
+│   └── dashboard/               # Partes para plantillas de dashboard
+│       ├── sidebar.php          # Barra lateral 
+│       └── topbar.php           # Barra superior
+├── functions.php                # Funcionalidad principal del tema
+├── style.css                    # Información y metadatos del tema
 ├── index.php                    # Plantilla principal
-├── style.css                    # Información del tema
+├── header.php                   # Cabecera del sitio
+├── footer.php                   # Pie de página del sitio
 └── README.md                    # Documentación
 ```
 
-## Requisitos
-
-- WordPress 6.0+
-- PHP 8.0+
-- MySQL 5.7+ o MariaDB 10.2+
-- Node.js 16+ (para desarrollo)
-
 ## Instalación
 
-### Para uso:
+1. Descarga este repositorio como archivo ZIP
+2. En WordPress, ve a Apariencia > Temas > Añadir nuevo > Subir tema
+3. Sube el archivo ZIP descargado
+4. Activa el tema
 
-1. Descarga la última versión del tema
-2. Sube el archivo zip a través del panel de administración de WordPress (Apariencia > Temas > Añadir nuevo > Subir tema)
-3. Activa el tema
-4. Configura las opciones del tema a través del personalizador de WordPress
+## Uso
 
-### Para desarrollo:
+### Dashboard
+1. Crea una nueva página en WordPress
+2. En el panel lateral, selecciona "Dashboard" como plantilla
+3. Publica la página y visítala para ver el panel con el estilo Soft Neo-Brutalism
 
-1. Clona este repositorio en tu carpeta `/wp-content/themes/`
-2. Navega a la carpeta del tema
-3. Ejecuta `npm install` para instalar las dependencias
-4. Ejecuta `npm run dev` para iniciar el entorno de desarrollo
-5. Ejecuta `npm run build` para compilar los archivos para producción
+### Cambio de estilos visuales
+- Cuando estés logueado como administrador, aparecerá un selector de estilos en la parte inferior derecha
+- Selecciona entre los diferentes estilos disponibles (Soft Neo-Brutalism implementado actualmente)
+
+### Modo claro/oscuro
+- Utiliza el botón de sol/luna en la barra superior para cambiar entre modo claro y oscuro
 
 ## Personalización
 
-Nova UI Solar Theme ofrece múltiples niveles de personalización:
+El tema incluye opciones para personalizar:
+- Estilo visual (Soft Neo-Brutalism, Neo-Brutalism, Futurismo Minimalista, Cyberpunk)
+- Modo claro/oscuro
+- Estado de la barra lateral (expandida/colapsada)
 
-1. **Selección de estilo visual**: Elige entre los estilos prediseñados
-2. **Personalización por tema**: Cada estilo tiene sus propias variables para personalizar colores, espaciados, tipografía, etc.
-3. **Personalización avanzada**: Desarrolladores pueden extender los componentes existentes o crear nuevos
+## Requisitos
 
-## Documentación
-
-La documentación completa estará disponible próximamente en la [wiki del proyecto](https://github.com/StrykerUX/Nova-UI-Solar-Theme/wiki).
-
-## Estado del desarrollo
-
-Este proyecto se encuentra actualmente en desarrollo activo. Consulta la sección de [issues](https://github.com/StrykerUX/Nova-UI-Solar-Theme/issues) para ver en qué estamos trabajando.
+- WordPress 5.6+
+- PHP 7.4+
 
 ## Licencia
 
-Este tema está licenciado bajo [GPL v2 o posterior](https://www.gnu.org/licenses/gpl-2.0.html).
-
-## Créditos
-
-Desarrollado por StrykerUX
+GPL v2 o posterior
