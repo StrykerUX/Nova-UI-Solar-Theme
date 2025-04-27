@@ -19,14 +19,32 @@ $collapsed_class = ($sidebar_mode === 'collapsed') ? 'sidebar-collapsed' : '';
         <div class="sidebar-brand">
             <a href="<?php echo esc_url(home_url('/')); ?>" class="logo">
                 <?php if (has_custom_logo()) : ?>
-                    <?php the_custom_logo(); ?>
-                <?php else : ?>
-                    <div class="logo-icon">
-                        <i class="ti ti-gamepad-2"></i>
+                    <!-- Versión completa del logo (visible cuando la barra no está colapsada) -->
+                    <div class="logo-full">
+                        <?php the_custom_logo(); ?>
                     </div>
-                    <span class="logo-text">
-                        Nova<span style="color: var(--nova-primary);">UI</span>
-                    </span>
+                    <!-- Versión solo ícono (visible cuando la barra está colapsada) -->
+                    <div class="logo-icon-only">
+                        <div class="logo-icon">
+                            <i class="ti ti-gamepad-2"></i>
+                        </div>
+                    </div>
+                <?php else : ?>
+                    <!-- Versión completa del logo (visible cuando la barra no está colapsada) -->
+                    <div class="logo-full">
+                        <div class="logo-icon">
+                            <i class="ti ti-gamepad-2"></i>
+                        </div>
+                        <span class="logo-text">
+                            Nova<span style="color: var(--nova-primary);">UI</span>
+                        </span>
+                    </div>
+                    <!-- Versión solo ícono (visible cuando la barra está colapsada) -->
+                    <div class="logo-icon-only">
+                        <div class="logo-icon">
+                            <i class="ti ti-gamepad-2"></i>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </a>
             <button id="sidebar-toggle" class="sidebar-toggle" aria-label="<?php esc_attr_e('Alternar barra lateral', 'nova-ui-solar'); ?>">
@@ -121,58 +139,7 @@ $collapsed_class = ($sidebar_mode === 'collapsed') ? 'sidebar-collapsed' : '';
             }
             ?>
         </div>
-
-        <div class="sidebar-footer">
-            <?php if ($active_style === 'soft-neo-brutalism') : ?>
-                <!-- Estilo mejorado para Soft Neo-Brutalism -->
-                <div class="system-status">
-                    <div class="status-card">
-                        <div class="status-icon">
-                            <i class="ti ti-help-circle"></i>
-                        </div>
-                        <div class="status-info">
-                            <p class="status-title"><?php esc_html_e('¿Necesitas ayuda?', 'nova-ui-solar'); ?></p>
-                            <p class="status-text"><?php esc_html_e('Revisa la documentación', 'nova-ui-solar'); ?></p>
-                        </div>
-                    </div>
-                </div>
-            <?php elseif ($active_style === 'neo-brutalism') : ?>
-                <!-- Estilo para Neo-Brutalism -->
-                <div class="system-status neo">
-                    <div class="status-card">
-                        <div class="status-icon">
-                            <i class="ti ti-shield-check"></i>
-                        </div>
-                        <div class="status-info">
-                            <h5><?php esc_html_e('ESTADO SEGURO', 'nova-ui-solar'); ?></h5>
-                            <p><?php esc_html_e('SISTEMAS FUNCIONANDO', 'nova-ui-solar'); ?></p>
-                        </div>
-                    </div>
-                </div>
-            <?php elseif ($active_style === 'futurismo-minimalista') : ?>
-                <!-- Estilo para Futurismo Minimalista -->
-                <div class="system-status minimal">
-                    <div class="status-icon">
-                        <i class="ti ti-shield"></i>
-                    </div>
-                    <div class="status-info">
-                        <p><?php esc_html_e('Estado del Sistema: Normal', 'nova-ui-solar'); ?></p>
-                    </div>
-                </div>
-            <?php elseif ($active_style === 'cyberpunk') : ?>
-                <!-- Estilo para Cyberpunk -->
-                <div class="system-status cyber">
-                    <div class="status-grid">
-                        <div class="status-indicator active"></div>
-                        <div class="status-indicator active"></div>
-                        <div class="status-indicator"></div>
-                    </div>
-                    <div class="status-info">
-                        <h5><?php esc_html_e('ENLACE SEGURO', 'nova-ui-solar'); ?></h5>
-                        <p><?php esc_html_e('RED ESTABLE', 'nova-ui-solar'); ?></p>
-                    </div>
-                </div>
-            <?php endif; ?>
-        </div>
+        
+        <!-- Hemos eliminado el sidebar-footer ya que lo moveremos al topbar -->
     </div>
 </div>

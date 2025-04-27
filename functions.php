@@ -1,358 +1,303 @@
 <?php
 /**
- * Nova UI Solar - Funciones y definiciones del tema
+ * Nova UI Solar functions and definitions
+ *
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
  * @package Nova_UI_Solar
- * @since 0.1.0
  */
 
-// Evitar acceso directo al archivo
-if (!defined('ABSPATH')) {
-    exit;
+if (!defined('_S_VERSION')) {
+    // Reemplazar el número de versión de cada lanzamiento.
+    define('_S_VERSION', '1.0.2');
 }
 
 /**
- * Define constantes del tema
+ * Configurar las características del tema predeterminadas de Nova UI Solar.
  */
-define('NOVA_UI_VERSION', '0.1.0');
-define('NOVA_UI_DIR', get_template_directory());
-define('NOVA_UI_URI', get_template_directory_uri());
-define('NOVA_UI_ASSETS_URI', NOVA_UI_URI . '/assets');
-
-/**
- * Incluir archivos de funciones separados
- */
-require_once NOVA_UI_DIR . '/inc/helpers.php';
-require_once NOVA_UI_DIR . '/inc/template-functions.php';
-require_once NOVA_UI_DIR . '/inc/template-tags.php';
-require_once NOVA_UI_DIR . '/inc/customizer.php';
-require_once NOVA_UI_DIR . '/inc/menu-integration.php'; // Integración mejorada con menús de WordPress
-
-if (!function_exists('nova_ui_setup')) :
-    /**
-     * Configuración principal del tema
+function nova_ui_solar_setup() {
+    /*
+     * Permitir que WordPress maneje el título del documento.
      */
-    function nova_ui_setup() {
-        // Agregar soporte para traducción
-        load_theme_textdomain('nova-ui-solar', NOVA_UI_DIR . '/languages');
+    add_theme_support('title-tag');
 
-        // Añadir soporte para etiqueta de título generada automáticamente
-        add_theme_support('title-tag');
+    /*
+     * Habilitar soporte para Post Thumbnails en entradas y páginas.
+     */
+    add_theme_support('post-thumbnails');
 
-        // Habilitar soporte para imágenes destacadas en posts
-        add_theme_support('post-thumbnails');
+    /*
+     * Registrar menús de navegación
+     */
+    register_nav_menus(
+        array(
+            'primary' => esc_html__('Primario', 'nova-ui-solar'),
+            'sidebar' => esc_html__('Menú Lateral', 'nova-ui-solar'),
+            'footer' => esc_html__('Pie de Página', 'nova-ui-solar'),
+        )
+    );
 
-        // Soporte para logo personalizado
-        add_theme_support('custom-logo', array(
-            'height'      => 60,
-            'width'       => 200,
-            'flex-height' => true,
-            'flex-width'  => true,
-        ));
-
-        // Configurar tamaños de imágenes personalizados
-        add_image_size('nova-ui-card', 800, 600, true);
-        add_image_size('nova-ui-avatar', 100, 100, true);
-
-        // Registrar ubicaciones de menús
-        register_nav_menus(array(
-            'primary'      => esc_html__('Menú Principal', 'nova-ui-solar'),
-            'sidebar'      => esc_html__('Menú Lateral', 'nova-ui-solar'),
-            'topbar-right' => esc_html__('Menú Superior Derecho', 'nova-ui-solar'),
-            'footer'       => esc_html__('Menú de Pie de Página', 'nova-ui-solar'),
-        ));
-
-        // Soporte HTML5 para elementos de formulario, búsqueda, comentarios, etc.
-        add_theme_support('html5', array(
-            'search-form',
-            'comment-form',
-            'comment-list',
-            'gallery',
-            'caption',
-            'style',
-            'script',
-        ));
-
-        // Añadir soporte para alineación amplia y ancha
-        add_theme_support('align-wide');
-
-        // Añadir soporte para personalización selectiva de la vista previa
-        add_theme_support('customize-selective-refresh-widgets');
-
-        // Añadir soporte para bloque de estilos
-        add_theme_support('wp-block-styles');
-
-        // Añadir soporte para diferentes estilos visuales
-        add_theme_support('nova-ui-neo-brutalism');
-        add_theme_support('nova-ui-soft-neo-brutalism');
-        add_theme_support('nova-ui-futurismo-minimalista');
-        add_theme_support('nova-ui-cyberpunk');
+    /*
+     * Cambiar el tamaño del contenido central para que coincida con los estándares de pantalla modernos.
+     */
+    global $content_width;
+    if (!isset($content_width)) {
+        $content_width = 1200;
     }
-endif;
-add_action('after_setup_theme', 'nova_ui_setup');
 
-/**
- * Establecer el ancho del contenido en píxeles, basado en el diseño del tema.
- */
-function nova_ui_content_width() {
-    $GLOBALS['content_width'] = apply_filters('nova_ui_content_width', 1140);
-}
-add_action('after_setup_theme', 'nova_ui_content_width', 0);
+    /*
+     * Habilitar soporte para logo personalizado.
+     */
+    add_theme_support(
+        'custom-logo',
+        array(
+            'height' => 250,
+            'width' => 250,
+            'flex-width' => true,
+            'flex-height' => true,
+        )
+    );
 
-/**
- * Registrar áreas de widgets.
- */
-function nova_ui_widgets_init() {
-    register_sidebar(array(
-        'name'          => esc_html__('Barra lateral', 'nova-ui-solar'),
-        'id'            => 'sidebar-1',
-        'description'   => esc_html__('Añade widgets aquí para que aparezcan en la barra lateral.', 'nova-ui-solar'),
-        'before_widget' => '<div id="%1$s" class="widget card mb-3 %2$s">',
-        'after_widget'  => '</div></div>',
-        'before_title'  => '<div class="card-header"><h5 class="card-title mb-0">',
-        'after_title'   => '</h5></div><div class="card-body">',
+    /*
+     * Añadir soporte para formatos de entrada.
+     */
+    add_theme_support(
+        'post-formats',
+        array(
+            'aside',
+            'image',
+            'video',
+            'quote',
+            'link',
+        )
+    );
+
+    // Añadir soporte para bloques completas
+    add_theme_support('align-wide');
+
+    // Soporte para colores personalizados en el editor
+    add_theme_support('editor-color-palette', array(
+        array(
+            'name' => __('Primario', 'nova-ui-solar'),
+            'slug' => 'primary',
+            'color' => '#4a6cf7',
+        ),
+        array(
+            'name' => __('Secundario', 'nova-ui-solar'),
+            'slug' => 'secondary',
+            'color' => '#8956f5',
+        ),
+        array(
+            'name' => __('Éxito', 'nova-ui-solar'),
+            'slug' => 'success',
+            'color' => '#10b981',
+        ),
+        array(
+            'name' => __('Peligro', 'nova-ui-solar'),
+            'slug' => 'danger',
+            'color' => '#ef4444',
+        ),
     ));
-
-    register_sidebar(array(
-        'name'          => esc_html__('Panel de control', 'nova-ui-solar'),
-        'id'            => 'dashboard',
-        'description'   => esc_html__('Añade widgets aquí para que aparezcan en el panel de control.', 'nova-ui-solar'),
-        'before_widget' => '<div class="col-lg-6 col-xl-4"><div id="%1$s" class="card %2$s">',
-        'after_widget'  => '</div></div></div>',
-        'before_title'  => '<div class="card-header d-flex justify-content-between align-items-center"><h4 class="header-title">',
-        'after_title'   => '</h4><div class="dropdown">
-                            <a href="#" class="dropdown-toggle arrow-none" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="ti ti-dots-vertical"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-refresh me-1"></i>' . esc_html__('Actualizar', 'nova-ui-solar') . '</a>
-                                <a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-settings me-1"></i>' . esc_html__('Configurar', 'nova-ui-solar') . '</a>
-                            </div>
-                        </div></div><div class="card-body">',
-    ));
 }
-add_action('widgets_init', 'nova_ui_widgets_init');
+add_action('after_setup_theme', 'nova_ui_solar_setup');
 
 /**
- * Registrar y cargar scripts y estilos del tema
+ * Cargar scripts y estilos.
  */
-function nova_ui_scripts() {
-    // Fuentes
-    wp_enqueue_style('nova-ui-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Jost:wght@400;500;600;700&display=swap', array(), null);
+function nova_ui_solar_scripts() {
+    // Registrar Bootstrap
+    wp_register_style('bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(), '5.3.0');
+    wp_register_script('bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.bundle.min.js', array('jquery'), '5.3.0', true);
 
-    // Bootstrap (opcional - depende de si quieres usar Bootstrap o CSS propio)
-    wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css', array(), '5.3.0');
-    wp_enqueue_script('bootstrap-bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', array('jquery'), '5.3.0', true);
-    
-    // Iconos
-    wp_enqueue_style('tabler-icons', 'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css', array(), '2.44.0');
-    
-    // Obtener el estilo visual activo
-    $active_style = get_theme_mod('nova_ui_visual_style', 'soft-neo-brutalism');
-    
+    // Registrar Tabler Icons
+    wp_register_style('tabler-icons', get_template_directory_uri() . '/assets/css/tabler-icons.min.css', array(), '2.30.0');
+
+    // Registrar ApexCharts para gráficos
+    wp_register_script('apexcharts', get_template_directory_uri() . '/assets/js/apexcharts.min.js', array(), '3.40.0', true);
+
     // Cargar estilos base
-    wp_enqueue_style('nova-ui-base', NOVA_UI_ASSETS_URI . '/css/base.css', array(), NOVA_UI_VERSION);
+    wp_enqueue_style('nova-ui-solar-base', get_template_directory_uri() . '/assets/css/base.css', array('bootstrap', 'tabler-icons'), _S_VERSION);
     
-    // Cargar estilo visual específico
-    wp_enqueue_style('nova-ui-' . $active_style, NOVA_UI_ASSETS_URI . '/css/themes/' . $active_style . '.css', array('nova-ui-base'), NOVA_UI_VERSION);
+    // Cargar correcciones del sidebar
+    wp_enqueue_style('nova-ui-sidebar-fix', get_template_directory_uri() . '/assets/css/sidebar-fix.css', array('nova-ui-solar-base'), _S_VERSION);
     
-    // Cargar estilos mejorados del sidebar
-    wp_enqueue_style('nova-ui-soft-neo-brutalism-sidebar', NOVA_UI_ASSETS_URI . '/css/themes/soft-neo-brutalism-sidebar.css', array('nova-ui-' . $active_style), NOVA_UI_VERSION);
-    
-    // JavaScript principal
-    wp_enqueue_script('nova-ui-main', NOVA_UI_ASSETS_URI . '/js/main.js', array('jquery'), NOVA_UI_VERSION, true);
-    
-    // Script para cambio de tema claro/oscuro
-    wp_enqueue_script('nova-ui-theme-switcher', NOVA_UI_ASSETS_URI . '/js/theme-switcher.js', array('jquery'), NOVA_UI_VERSION, true);
-    
-    // Script mejorado para el sidebar
-    wp_enqueue_script('nova-ui-sidebar-enhanced', NOVA_UI_ASSETS_URI . '/js/sidebar-enhanced.js', array('jquery'), NOVA_UI_VERSION, true);
-    
-    // Pasar datos al JavaScript
-    wp_localize_script('nova-ui-main', 'novaUIData', array(
+    // Cargar estilo visual activo
+    $active_style = get_theme_mod('nova_ui_visual_style', 'soft-neo-brutalism');
+    wp_enqueue_style('nova-ui-solar-style', get_template_directory_uri() . '/assets/css/themes/' . $active_style . '.css', array('nova-ui-solar-base'), _S_VERSION);
+
+    // Cargar scripts
+    wp_enqueue_script('bootstrap');
+    wp_enqueue_script('nova-ui-solar-main', get_template_directory_uri() . '/assets/js/main.js', array('jquery', 'bootstrap'), _S_VERSION, true);
+
+    // Cargar ApexCharts solo en páginas que lo necesiten
+    if (is_page_template('page-templates/dashboard.php')) {
+        wp_enqueue_script('apexcharts');
+    }
+
+    // Pasar datos al script principal
+    wp_localize_script('nova-ui-solar-main', 'novaUIData', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('nova-ui-nonce'),
-        'homeUrl' => esc_url(home_url('/')),
-        'themeUri' => NOVA_UI_URI,
-        'assetsUri' => NOVA_UI_ASSETS_URI,
-        'isRtl' => is_rtl(),
+        'nonce' => wp_create_nonce('nova_ui_nonce'),
         'userTheme' => get_theme_mod('nova_ui_theme_mode', 'light'),
         'visualStyle' => $active_style,
-        'userLoggedIn' => is_user_logged_in(),
     ));
+}
+add_action('wp_enqueue_scripts', 'nova_ui_solar_scripts');
 
-    // Comentarios
-    if (is_singular() && comments_open() && get_option('thread_comments')) {
-        wp_enqueue_script('comment-reply');
+/**
+ * Clases personalizadas para el menú lateral usando Walker
+ */
+class Nova_UI_Sidebar_Menu_Walker extends Walker_Nav_Menu {
+    function start_lvl(&$output, $depth = 0, $args = array()) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "\n$indent<ul class=\"dropdown-menu\">\n";
     }
-}
-add_action('wp_enqueue_scripts', 'nova_ui_scripts');
 
-/**
- * Agregar atributos al HTML para controlar el modo del tema (claro/oscuro)
- */
-function nova_ui_add_html_attributes($output) {
-    $theme_mode = get_theme_mod('nova_ui_theme_mode', 'light');
-    $sidebar_mode = get_theme_mod('nova_ui_sidebar_mode', 'default');
-    $visual_style = get_theme_mod('nova_ui_visual_style', 'soft-neo-brutalism');
-    
-    return str_replace('<html', '<html data-theme="' . esc_attr($theme_mode) . '" data-sidebar="' . esc_attr($sidebar_mode) . '" data-style="' . esc_attr($visual_style) . '"', $output);
-}
-add_filter('language_attributes', 'nova_ui_add_html_attributes');
+    function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
+        $indent = ($depth) ? str_repeat("\t", $depth) : '';
 
-/**
- * Función para determinar si se está usando un layout oscuro
- */
-function nova_ui_is_dark_mode() {
-    return get_theme_mod('nova_ui_theme_mode', 'light') === 'dark';
-}
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $classes[] = 'nav-item';
 
-/**
- * Agregado de clase al elemento li del menú para indicar si tiene submenú
- */
-function nova_ui_add_menu_parent_class($items) {
-    $parents = array();
-    
-    // Recorrer todos los elementos del menú para encontrar elementos con hijos
-    foreach ($items as $item) {
-        if ($item->menu_item_parent && $item->menu_item_parent > 0) {
-            $parents[] = $item->menu_item_parent;
+        if (in_array('current-menu-item', $classes)) {
+            $classes[] = 'active';
         }
-    }
-    
-    // Agregar clase 'has-children' a elementos del menú que son padres
-    foreach ($items as $item) {
-        if (in_array($item->ID, $parents)) {
-            $item->classes[] = 'has-children';
+
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args, $depth));
+
+        $output .= $indent . '<li class="' . esc_attr($class_names) . '">';
+
+        $atts = array();
+        $atts['title']  = !empty($item->attr_title) ? $item->attr_title : '';
+        $atts['target'] = !empty($item->target) ? $item->target : '';
+        $atts['rel']    = !empty($item->xfn) ? $item->xfn : '';
+        $atts['href']   = !empty($item->url) ? $item->url : '';
+
+        // Agregar clases para enlaces de navegación
+        $has_children = in_array('menu-item-has-children', $classes);
+        $atts['class'] = 'nav-link soft-neo-nav-link' . ($has_children ? ' has-dropdown' : '') . (in_array('current-menu-item', $classes) ? ' active' : '');
+
+        $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args, $depth);
+
+        $attributes = '';
+        foreach ($atts as $attr => $value) {
+            if (!empty($value)) {
+                $value = ('href' === $attr) ? esc_url($value) : esc_attr($value);
+                $attributes .= ' ' . $attr . '="' . $value . '"';
+            }
         }
-    }
-    
-    return $items;
-}
-add_filter('wp_nav_menu_objects', 'nova_ui_add_menu_parent_class');
 
-/**
- * Añadir clases a los elementos <li> del menú
- */
-function nova_ui_add_menu_li_class($classes, $item, $args, $depth) {
-    if (isset($args->theme_location) && $args->theme_location == 'sidebar') {
-        $classes[] = 'side-nav-item';
-    }
-    
-    return $classes;
-}
-add_filter('nav_menu_css_class', 'nova_ui_add_menu_li_class', 10, 4);
+        // Determinar qué icono usar basado en el título del elemento
+        $icon_class = 'ti-layout-dashboard'; // Icono predeterminado
+        $title = strtolower($item->title);
 
-/**
- * Añadir clases a los enlaces <a> del menú
- */
-function nova_ui_add_menu_link_class($atts, $item, $args, $depth) {
-    if (isset($args->theme_location) && $args->theme_location == 'sidebar') {
-        $atts['class'] = isset($atts['class']) ? $atts['class'] . ' side-nav-link' : 'side-nav-link';
-    } elseif (isset($args->theme_location) && $args->theme_location == 'footer') {
-        $atts['class'] = isset($atts['class']) ? $atts['class'] . ' list-inline-item' : 'list-inline-item';
-    }
-    
-    return $atts;
-}
-add_filter('nav_menu_link_attributes', 'nova_ui_add_menu_link_class', 10, 4);
-
-/**
- * Registrar una página de opciones del tema en el panel de administración
- */
-function nova_ui_add_admin_menu() {
-    add_theme_page(
-        esc_html__('Opciones de Nova UI', 'nova-ui-solar'),
-        esc_html__('Nova UI', 'nova-ui-solar'),
-        'manage_options',
-        'nova-ui-options',
-        'nova_ui_options_page'
-    );
-}
-add_action('admin_menu', 'nova_ui_add_admin_menu');
-
-/**
- * Renderizar página de opciones del tema
- */
-function nova_ui_options_page() {
-    ?>
-    <div class="wrap">
-        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
-        <form action="options.php" method="post">
-            <?php
-            settings_fields('nova_ui_options');
-            do_settings_sections('nova-ui-options');
-            submit_button();
-            ?>
-        </form>
-    </div>
-    <?php
-}
-
-/**
- * Registrar configuraciones
- */
-function nova_ui_register_settings() {
-    register_setting('nova_ui_options', 'nova_ui_default_style');
-    
-    add_settings_section(
-        'nova_ui_style_section',
-        esc_html__('Configuración de estilo visual', 'nova-ui-solar'),
-        'nova_ui_style_section_callback',
-        'nova-ui-options'
-    );
-    
-    add_settings_field(
-        'nova_ui_default_style',
-        esc_html__('Estilo visual predeterminado', 'nova-ui-solar'),
-        'nova_ui_default_style_callback',
-        'nova-ui-options',
-        'nova_ui_style_section'
-    );
-}
-add_action('admin_init', 'nova_ui_register_settings');
-
-/**
- * Callback para la sección de estilos
- */
-function nova_ui_style_section_callback() {
-    echo '<p>' . esc_html__('Selecciona el estilo visual predeterminado para tu panel de administración.', 'nova-ui-solar') . '</p>';
-}
-
-/**
- * Callback para el campo de selección de estilo
- */
-function nova_ui_default_style_callback() {
-    $styles = array(
-        'soft-neo-brutalism' => esc_html__('Soft Neo-Brutalism', 'nova-ui-solar'),
-        'neo-brutalism' => esc_html__('Neo-Brutalism', 'nova-ui-solar'),
-        'futurismo-minimalista' => esc_html__('Futurismo Minimalista', 'nova-ui-solar'),
-        'cyberpunk' => esc_html__('Cyberpunk', 'nova-ui-solar')
-    );
-    
-    $current = get_option('nova_ui_default_style', 'soft-neo-brutalism');
-    
-    echo '<select name="nova_ui_default_style">';
-    foreach ($styles as $value => $label) {
-        printf(
-            '<option value="%s" %s>%s</option>',
-            esc_attr($value),
-            selected($current, $value, false),
-            esc_html($label)
+        // Mapeo de palabras clave a iconos
+        $icon_mapping = array(
+            'dashboard' => 'ti-home',
+            'inicio' => 'ti-home',
+            'perfil' => 'ti-user',
+            'usuario' => 'ti-user',
+            'análisis' => 'ti-chart-bar',
+            'analytics' => 'ti-chart-bar',
+            'chat' => 'ti-message-circle',
+            'mensajes' => 'ti-message-circle',
+            'enlaces' => 'ti-link',
+            'links' => 'ti-link',
+            'documentos' => 'ti-file-text',
+            'archivos' => 'ti-file-text',
+            'calendario' => 'ti-calendar',
+            'agenda' => 'ti-calendar',
+            'proyectos' => 'ti-briefcase',
+            'tareas' => 'ti-list',
+            'configuración' => 'ti-settings',
+            'ajustes' => 'ti-settings',
+            'settings' => 'ti-settings',
         );
+
+        // Buscar coincidencias de palabras clave
+        foreach ($icon_mapping as $keyword => $icon) {
+            if (strpos($title, $keyword) !== false) {
+                $icon_class = $icon;
+                break;
+            }
+        }
+
+        $item_output = $args->before;
+        $item_output .= '<a' . $attributes . '>';
+        $item_output .= '<span class="menu-icon"><i class="' . $icon_class . '"></i></span>';
+        $item_output .= '<span class="menu-text">' . $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after . '</span>';
+
+        // Agregar indicador para elementos con submenú
+        if ($has_children) {
+            $item_output .= '<i class="ti ti-chevron-down dropdown-indicator"></i>';
+        }
+
+        $item_output .= '</a>';
+        $item_output .= $args->after;
+
+        $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
     }
-    echo '</select>';
 }
 
 /**
- * Registrar plantillas de página
+ * Función para manejar la actualización del modo del tema vía AJAX
  */
-function nova_ui_register_page_templates($templates) {
-    $templates['page-templates/dashboard.php'] = esc_html__('Dashboard', 'nova-ui-solar');
-    $templates['page-templates/profile.php'] = esc_html__('Perfil', 'nova-ui-solar');
-    $templates['page-templates/settings.php'] = esc_html__('Configuración', 'nova-ui-solar');
-    $templates['page-templates/full-width.php'] = esc_html__('Ancho Completo', 'nova-ui-solar');
-    
-    return $templates;
+function nova_update_theme_mode() {
+    // Verificar nonce por seguridad
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'nova_ui_nonce')) {
+        wp_send_json_error('Nonce no válido');
+    }
+
+    // Obtener el modo del tema
+    $mode = isset($_POST['mode']) ? sanitize_text_field($_POST['mode']) : 'light';
+
+    // Actualizar la opción del tema
+    set_theme_mod('nova_ui_theme_mode', $mode);
+
+    wp_send_json_success(array('mode' => $mode));
 }
-add_filter('theme_page_templates', 'nova_ui_register_page_templates');
+add_action('wp_ajax_nova_update_theme_mode', 'nova_update_theme_mode');
+add_action('wp_ajax_nopriv_nova_update_theme_mode', 'nova_update_theme_mode');
+
+/**
+ * Función para manejar la actualización del estilo visual vía AJAX
+ */
+function nova_update_visual_style() {
+    // Verificar nonce por seguridad
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'nova_ui_nonce')) {
+        wp_send_json_error('Nonce no válido');
+    }
+
+    // Obtener el estilo visual
+    $style = isset($_POST['style']) ? sanitize_text_field($_POST['style']) : 'soft-neo-brutalism';
+
+    // Actualizar la opción del tema
+    set_theme_mod('nova_ui_visual_style', $style);
+
+    wp_send_json_success(array('style' => $style));
+}
+add_action('wp_ajax_nova_update_visual_style', 'nova_update_visual_style');
+add_action('wp_ajax_nopriv_nova_update_visual_style', 'nova_update_visual_style');
+
+/**
+ * Registrar widget areas.
+ */
+function nova_ui_solar_widgets_init() {
+    register_sidebar(
+        array(
+            'name'          => esc_html__('Barra lateral', 'nova-ui-solar'),
+            'id'            => 'sidebar-1',
+            'description'   => esc_html__('Añadir widgets aquí.', 'nova-ui-solar'),
+            'before_widget' => '<section id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</section>',
+            'before_title'  => '<h2 class="widget-title">',
+            'after_title'   => '</h2>',
+        )
+    );
+}
+add_action('widgets_init', 'nova_ui_solar_widgets_init');
+
+/**
+ * Incluir archivos de plantillas de páginas personalizadas
+ */
+require get_template_directory() . '/inc/template-functions.php';

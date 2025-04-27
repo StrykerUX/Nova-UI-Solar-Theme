@@ -47,6 +47,12 @@ $theme_mode = get_theme_mod('nova_ui_theme_mode', 'light');
                     </div>
                 </div>
                 <?php endif; ?>
+                
+                <!-- Botón de ayuda (reubicado desde sidebar-footer) -->
+                <div class="help-trigger">
+                    <i class="ti ti-help-circle"></i>
+                    <span><?php esc_html_e('¿Necesitas ayuda?', 'nova-ui-solar'); ?></span>
+                </div>
 
                 <!-- Notificaciones -->
                 <div class="notification-dropdown dropdown">

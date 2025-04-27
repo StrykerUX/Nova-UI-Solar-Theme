@@ -1,0 +1,118 @@
+/**
+ * Correcciones para la barra lateral
+ */
+
+/* Evitar scroll en la barra lateral */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 260px;
+  background-color: var(--nova-bg-card);
+  border-right: var(--nova-border-width) solid var(--nova-border-color);
+  z-index: var(--nova-z-index-fixed);
+  transition: width var(--nova-transition-medium);
+  overflow: hidden; /* Evitar scroll */
+}
+
+/* Altura fija para el menú lateral permitiendo que su contenido se ajuste sin scroll */
+.sidebar-menu {
+  padding: var(--nova-spacing-md) 0;
+  height: calc(100% - 60px); /* Resta solo la altura del logo */
+  overflow-y: visible; /* Cambiar de auto a visible para evitar scroll */
+}
+
+/* Mejorar la visibilidad del botón de colapso */
+.sidebar-toggle {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--nova-bg-card);
+  border: var(--nova-border-width) solid var(--nova-border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--nova-transition-fast);
+}
+
+.sidebar-toggle:hover {
+  background-color: color-mix(in srgb, var(--nova-primary), transparent 90%);
+}
+
+/* Mejora el manejo de logos */
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: var(--nova-font-size-lg);
+  color: var(--nova-text-color);
+}
+
+/* Logo completo para barra expandida */
+.logo-full {
+  display: flex;
+  align-items: center;
+  transition: opacity var(--nova-transition-medium);
+}
+
+/* Logo minimizado (solo ícono) para barra colapsada */
+.logo-icon-only {
+  display: none;
+}
+
+.sidebar-collapsed .logo-full {
+  display: none;
+}
+
+.sidebar-collapsed .logo-icon-only {
+  display: flex;
+}
+
+/* Eliminar sidebar footer para evitar que ocupe espacio */
+.sidebar-footer {
+  display: none;
+}
+
+/* Añadir soporte para el componente de ayuda en el topbar */
+.help-trigger {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  padding: 5px 10px;
+  border-radius: var(--nova-border-radius-md);
+  background-color: color-mix(in srgb, var(--nova-primary), transparent 90%);
+  color: var(--nova-primary);
+  font-weight: 500;
+  font-size: var(--nova-font-size-sm);
+  cursor: pointer;
+  transition: all var(--nova-transition-fast);
+}
+
+.help-trigger:hover {
+  background-color: color-mix(in srgb, var(--nova-primary), transparent 80%);
+}
+
+.help-trigger i {
+  margin-right: 5px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 992px) {
+  .help-trigger span {
+    display: none;
+  }
+  
+  .help-trigger i {
+    margin-right: 0;
+  }
+  
+  .help-trigger {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    padding: 0;
+    justify-content: center;
+  }
+}
