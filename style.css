@@ -1,0 +1,17 @@
+/*
+Theme Name: Nova UI Solar
+Theme URI: https://github.com/StrykerUX/Nova-UI-Solar-Theme
+Author: StrykerUX
+Author URI: https://github.com/StrykerUX
+Description: Tema WordPress modular para paneles SaaS con múltiples estilos visuales (Neo-Brutalist, Soft Neo-Brutalist, Futurismo Minimalista, Cyberpunk)
+Version: 0.1.0
+Requires at least: 5.6
+Tested up to: 6.4
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: nova-ui-solar
+Tags: saas, dashboard, multiple-styles, neo-brutalism, customizable
+*/
+
+/* Este archivo es solo para la identificación del tema. Los estilos reales se cargan desde la carpeta /assets/css */
