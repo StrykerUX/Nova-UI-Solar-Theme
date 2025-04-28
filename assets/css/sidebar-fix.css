@@ -1,118 +1,116 @@
 /**
- * Correcciones para la barra lateral
+ * Correcciones específicas para el sidebar y su comportamiento colapsado
+ * Estas reglas tienen mayor especificidad para sobrescribir estilos previos
  */
 
-/* Evitar scroll en la barra lateral */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 260px;
-  background-color: var(--nova-bg-card);
-  border-right: var(--nova-border-width) solid var(--nova-border-color);
-  z-index: var(--nova-z-index-fixed);
-  transition: width var(--nova-transition-medium);
-  overflow: hidden; /* Evitar scroll */
+/* Forzar correctamente el ancho colapsado */
+.sidebar.sidebar-collapsed {
+  width: 70px !important;
 }
 
-/* Altura fija para el menú lateral permitiendo que su contenido se ajuste sin scroll */
-.sidebar-menu {
-  padding: var(--nova-spacing-md) 0;
-  height: calc(100% - 60px); /* Resta solo la altura del logo */
-  overflow-y: visible; /* Cambiar de auto a visible para evitar scroll */
-}
-
-/* Mejorar la visibilidad del botón de colapso */
-.sidebar-toggle {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
+/* Corrección para el logo y elementos de la marca */
+.sidebar-collapsed .sidebar-brand {
+  padding: 0;
   justify-content: center;
-  background-color: var(--nova-bg-card);
-  border: var(--nova-border-width) solid var(--nova-border-color);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all var(--nova-transition-fast);
 }
 
-.sidebar-toggle:hover {
-  background-color: color-mix(in srgb, var(--nova-primary), transparent 90%);
+/* Corregir visualización de enlaces en el estado colapsado */
+.sidebar-collapsed .nav-link,
+.nav-link.collapsed-nav-link {
+  justify-content: center !important;
+  padding: var(--nova-spacing-sm) 0 !important;
+  text-align: center;
+  height: 42px;
+  width: 42px;
+  margin: 3px auto !important;
 }
 
-/* Mejora el manejo de logos */
-.logo {
-  display: flex;
-  align-items: center;
-  font-weight: 700;
-  font-size: var(--nova-font-size-lg);
-  color: var(--nova-text-color);
+/* Asegurar que los iconos del menú permanezcan visibles */
+.sidebar-collapsed .menu-icon,
+.collapsed-nav-link .menu-icon {
+  margin-right: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
-/* Logo completo para barra expandida */
-.logo-full {
-  display: flex;
-  align-items: center;
-  transition: opacity var(--nova-transition-medium);
+/* Ocultar completamente el texto en estado colapsado */
+.sidebar-collapsed .menu-text,
+.collapsed-nav-link .menu-text {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* Logo minimizado (solo ícono) para barra colapsada */
-.logo-icon-only {
-  display: none;
+/* Ocultar flechas de dropdown en estado colapsado */
+.sidebar-collapsed .dropdown-indicator,
+.collapsed-nav-link .dropdown-indicator {
+  display: none !important;
 }
 
-.sidebar-collapsed .logo-full {
-  display: none;
-}
-
+/* Mejorar el diseño del logo en estado colapsado */
+.sidebar-collapsed .logo,
 .sidebar-collapsed .logo-icon-only {
-  display: flex;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-/* Eliminar sidebar footer para evitar que ocupe espacio */
-.sidebar-footer {
-  display: none;
+/* Estilos especiales para soft-neo-brutalism */
+.soft-neo-brutalism .sidebar-collapsed .nav-link,
+.soft-neo-brutalism .collapsed-nav-link {
+  border-radius: var(--nova-border-radius-md) !important;
+  width: 42px !important;
+  height: 42px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-/* Añadir soporte para el componente de ayuda en el topbar */
-.help-trigger {
-  display: flex;
-  align-items: center;
-  margin-right: 15px;
-  padding: 5px 10px;
+/* Estilo para los tooltips al hacer hover */
+.sidebar-collapsed .nav-link:hover::after {
+  content: attr(data-title);
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background-color: var(--nova-bg-card);
+  color: var(--nova-text-color);
+  padding: 8px 12px;
   border-radius: var(--nova-border-radius-md);
-  background-color: color-mix(in srgb, var(--nova-primary), transparent 90%);
-  color: var(--nova-primary);
-  font-weight: 500;
-  font-size: var(--nova-font-size-sm);
-  cursor: pointer;
-  transition: all var(--nova-transition-fast);
+  font-size: 14px;
+  z-index: 1000;
+  box-shadow: var(--nova-shadow-md);
+  border: var(--nova-border-width) solid var(--nova-border-color);
 }
 
-.help-trigger:hover {
-  background-color: color-mix(in srgb, var(--nova-primary), transparent 80%);
-}
-
-.help-trigger i {
-  margin-right: 5px;
-}
-
-/* Estilos responsivos */
+/* Corrección para dispositivos móviles */
 @media (max-width: 992px) {
-  .help-trigger span {
-    display: none;
+  .sidebar {
+    width: 260px !important;
+    transform: translateX(-100%);
+    transition: transform var(--nova-transition-medium) !important;
   }
   
-  .help-trigger i {
-    margin-right: 0;
+  .sidebar.open {
+    transform: translateX(0);
   }
   
-  .help-trigger {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    padding: 0;
-    justify-content: center;
+  .sidebar.sidebar-collapsed {
+    width: 70px !important;
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.sidebar-collapsed.open {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
   }
 }
