@@ -5,6 +5,19 @@ Todos los cambios notables en el tema "Nova UI Solar" serán documentados en est
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2025-04-28
+
+### Corregido
+- Solucionado el problema de funcionalidad duplicada en el sidebar toggle
+- Separado el script de sidebar-toggle a un archivo independiente para evitar conflictos
+- Actualizado el sistema de carga de scripts en functions.php para optimizar el rendimiento
+- Implementada una solución para el colapso correcto de la barra lateral en diferentes estilos visuales
+
+### Mejorado
+- Reorganización del código JavaScript para mayor mantenibilidad
+- Mejora en la prioridad de carga de scripts críticos
+- Optimización del rendimiento general del sidebar toggle
+
 ## [0.1.1] - 2025-04-27
 
 ### Corregido
