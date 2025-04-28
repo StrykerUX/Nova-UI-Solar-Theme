@@ -139,3 +139,21 @@ $collapsed_class = ($sidebar_mode === 'collapsed') ? 'sidebar-collapsed' : '';
         </div>
     </div>
 </div>
+
+<!-- Inicializar tooltips para los elementos del menú cuando está colapsado -->
+<script>
+// Añadir atributos data-title al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    var isCollapsed = document.getElementById('sidebar').classList.contains('sidebar-collapsed');
+    if (isCollapsed) {
+        var navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(function(link) {
+            var menuText = link.querySelector('.menu-text');
+            if (menuText) {
+                link.setAttribute('data-title', menuText.textContent.trim());
+                link.classList.add('collapsed-nav-link');
+            }
+        });
+    }
+});
+</script>
