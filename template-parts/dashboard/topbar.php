@@ -15,6 +15,13 @@ $theme_mode = get_theme_mod('nova_ui_theme_mode', 'light');
 <div class="topbar <?php echo esc_attr($active_style); ?>">
     <div class="container-fluid">
         <div class="topbar-inner">
+            <!-- Añadido: Botón para colapsar la barra lateral -->
+            <div class="sidebar-toggle-wrapper">
+                <button id="sidebar-toggle" class="sidebar-toggle" aria-label="<?php esc_attr_e('Alternar barra lateral', 'nova-ui-solar'); ?>">
+                    <i class="ti ti-menu-2"></i>
+                </button>
+            </div>
+            
             <!-- Búsqueda -->
             <div class="search-wrapper">
                 <div class="search-box">
