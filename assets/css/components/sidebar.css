@@ -1,0 +1,272 @@
+/**
+ * Estilos específicos para la barra lateral mejorada
+ * Incluye soporte para estado colapsado y mejoras visuales
+ */
+
+/* Estructura básica del sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 260px;
+  background-color: var(--nova-bg-card);
+  border-right: var(--nova-border-width) solid var(--nova-border-color);
+  z-index: var(--nova-z-index-fixed);
+  transition: width var(--nova-transition-medium);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Estado colapsado de la barra lateral */
+.sidebar-collapsed {
+  width: 70px;
+}
+
+/* Ajuste del contenido principal */
+.main-content {
+  margin-left: 260px;
+  transition: margin-left var(--nova-transition-medium);
+}
+
+.sidebar-collapsed ~ .main-content {
+  margin-left: 70px;
+}
+
+/* Cabecera de la barra lateral */
+.sidebar-brand {
+  height: 60px;
+  padding: 0 var(--nova-spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: var(--nova-border-width) solid var(--nova-border-color);
+}
+
+/* Estilos del logo */
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: var(--nova-font-size-lg);
+  color: var(--nova-text-color);
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--nova-border-radius-md);
+  background-color: var(--nova-primary);
+  color: white;
+  margin-right: var(--nova-spacing-sm);
+  overflow: hidden;
+}
+
+.logo-text {
+  transition: opacity var(--nova-transition-medium), width var(--nova-transition-medium);
+  white-space: nowrap;
+}
+
+/* Comportamiento del logo en modo colapsado */
+.sidebar-collapsed .logo-full {
+  display: none;
+}
+
+.logo-icon-only {
+  display: none;
+}
+
+.sidebar-collapsed .logo-icon-only {
+  display: block;
+}
+
+.sidebar:not(.sidebar-collapsed) .logo-icon-only {
+  display: none;
+}
+
+/* Menú principal */
+.sidebar-menu {
+  padding: var(--nova-spacing-md) 0;
+  overflow-y: auto;
+  height: calc(100% - 60px); /* resta la altura del logo */
+}
+
+/* Botón para colapsar el sidebar (Ahora en el topbar) */
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--nova-border-radius-md);
+  background-color: transparent;
+  border: var(--nova-border-width) solid var(--nova-border-color);
+  color: var(--nova-text-color);
+  cursor: pointer;
+  transition: all var(--nova-transition-fast);
+}
+
+.sidebar-toggle:hover {
+  background-color: color-mix(in srgb, var(--nova-primary), transparent 90%);
+  color: var(--nova-primary);
+}
+
+.sidebar-toggle-wrapper {
+  margin-right: var(--nova-spacing-md);
+}
+
+/* Lista de navegación */
+.nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 2px;
+  position: relative;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: var(--nova-spacing-sm) var(--nova-spacing-md);
+  color: var(--nova-text-color);
+  transition: all var(--nova-transition-fast);
+  border-radius: 0;
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-link:hover, .nav-link:focus, .nav-link.active {
+  color: var(--nova-primary);
+  background-color: rgba(var(--nova-primary-rgb), 0.05);
+}
+
+.nav-link.active {
+  font-weight: 600;
+}
+
+/* Estilos específicos para íconos del menú */
+.menu-icon {
+  margin-right: var(--nova-spacing-sm);
+  font-size: var(--nova-font-size-lg);
+  transition: margin var(--nova-transition-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px; /* Asegura un ancho mínimo para alinear íconos */
+}
+
+.menu-text {
+  transition: opacity var(--nova-transition-medium), width var(--nova-transition-medium);
+  white-space: nowrap;
+}
+
+/* Comportamiento de elementos del menú cuando está colapsado */
+.sidebar-collapsed .menu-icon {
+  margin-right: 0;
+}
+
+.sidebar-collapsed .menu-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+/* Tooltips para menú colapsado */
+.sidebar-collapsed .nav-link {
+  justify-content: center;
+  position: relative;
+}
+
+.sidebar-collapsed .nav-link:hover::after {
+  content: attr(data-title);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--nova-bg-card);
+  color: var(--nova-text-color);
+  padding: var(--nova-spacing-xs) var(--nova-spacing-sm);
+  border-radius: var(--nova-border-radius-sm);
+  white-space: nowrap;
+  box-shadow: var(--nova-shadow-md);
+  margin-left: var(--nova-spacing-sm);
+  z-index: 1000;
+  font-weight: normal;
+  border: var(--nova-border-width) solid var(--nova-border-color);
+}
+
+/* Submenús desplegables */
+.dropdown-indicator {
+  margin-left: auto;
+  transition: transform var(--nova-transition-fast);
+}
+
+.dropdown-menu {
+  padding-left: var(--nova-spacing-lg);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--nova-transition-medium);
+  list-style: none;
+}
+
+.dropdown-menu.show {
+  max-height: 500px;
+}
+
+.has-dropdown[aria-expanded="true"] .dropdown-indicator {
+  transform: rotate(180deg);
+}
+
+/* Ocultar completamente dropdowns cuando el sidebar está colapsado */
+.sidebar-collapsed .dropdown-menu {
+  display: none;
+}
+
+.sidebar-collapsed .dropdown-indicator {
+  display: none;
+}
+
+/* Mensaje de aviso cuando no hay menú asignado */
+.sidebar-menu-notice {
+  padding: var(--nova-spacing-md);
+  margin: var(--nova-spacing-md);
+  background-color: rgba(var(--nova-warning-rgb), 0.1);
+  border: 1px solid var(--nova-warning);
+  border-radius: var(--nova-border-radius-md);
+  font-size: var(--nova-font-size-sm);
+}
+
+.sidebar-menu-notice-link {
+  display: inline-block;
+  margin-top: var(--nova-spacing-sm);
+  color: var(--nova-primary);
+  text-decoration: underline;
+}
+
+/* Estilos para modo móvil */
+@media (max-width: 992px) {
+  .sidebar {
+    left: -260px;
+    box-shadow: none;
+  }
+  
+  .sidebar.open {
+    left: 0;
+    box-shadow: var(--nova-shadow-lg);
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+  }
+  
+  .mobile-menu-trigger {
+    display: block;
+  }
+}
