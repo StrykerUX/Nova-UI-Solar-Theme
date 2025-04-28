@@ -1,0 +1,122 @@
+/**
+ * Correcciones críticas para la funcionalidad del sidebar collapse
+ * Estas reglas tienen máxima prioridad y deben sobreescribir cualquier otro estilo
+ */
+
+/* FORZAR ANCHURA CORRECTA DEL SIDEBAR */
+.sidebar {
+  width: 260px !important;
+  transition: width 0.3s ease-in-out !important;
+  overflow-x: hidden !important;
+}
+
+.sidebar.sidebar-collapsed {
+  width: 70px !important;
+}
+
+/* FORZAR MARGEN CORRECTO DEL CONTENIDO PRINCIPAL */
+.main-content {
+  margin-left: 260px !important;
+  transition: margin-left 0.3s ease-in-out !important;
+}
+
+.sidebar-collapsed ~ .main-content {
+  margin-left: 70px !important;
+}
+
+/* CORRECCIONES PARA EL LOGO */
+.sidebar-collapsed .logo-text {
+  display: none !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+}
+
+.sidebar-collapsed .logo {
+  justify-content: center !important;
+}
+
+.logo-icon {
+  min-width: 40px !important;
+  flex-shrink: 0 !important;
+}
+
+/* CORRECCIONES PARA LOS ELEMENTOS DE NAVEGACIÓN */
+.sidebar-collapsed .menu-text {
+  display: none !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+}
+
+.sidebar-collapsed .dropdown-indicator {
+  display: none !important;
+}
+
+.sidebar-collapsed .nav-link {
+  padding: 0.5rem 0 !important;
+  justify-content: center !important;
+}
+
+.sidebar-collapsed .menu-icon {
+  margin-right: 0 !important;
+}
+
+/* MOSTRAR/OCULTAR VERSIONES DEL LOGO */
+.logo-full, .logo-icon-only {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.sidebar-collapsed .logo-full {
+  display: none !important;
+}
+
+.sidebar:not(.sidebar-collapsed) .logo-icon-only {
+  display: none !important;
+}
+
+/* Tooltips para menú colapsado */
+.sidebar-collapsed .nav-link {
+  position: relative !important;
+}
+
+.sidebar-collapsed .nav-link:hover::after {
+  content: attr(data-title);
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--nova-bg-card);
+  color: var(--nova-text-color);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  white-space: nowrap;
+}
+
+/* Correcciones para dispositivos móviles */
+@media (max-width: 992px) {
+  .sidebar {
+    left: -260px !important;
+    transition: left 0.3s ease-in-out !important;
+  }
+  
+  .sidebar.open {
+    left: 0 !important;
+  }
+  
+  .sidebar.sidebar-collapsed {
+    left: -70px !important;
+  }
+  
+  .sidebar.sidebar-collapsed.open {
+    left: 0 !important;
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
