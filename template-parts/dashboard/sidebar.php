@@ -47,9 +47,7 @@ $collapsed_class = ($sidebar_mode === 'collapsed') ? 'sidebar-collapsed' : '';
                     </div>
                 <?php endif; ?>
             </a>
-            <button id="sidebar-toggle" class="sidebar-toggle" aria-label="<?php esc_attr_e('Alternar barra lateral', 'nova-ui-solar'); ?>">
-                <i class="ti ti-menu-2"></i>
-            </button>
+            <!-- El botón de toggle se ha movido al topbar -->
         </div>
 
         <div class="sidebar-menu">
@@ -139,7 +137,5 @@ $collapsed_class = ($sidebar_mode === 'collapsed') ? 'sidebar-collapsed' : '';
             }
             ?>
         </div>
-        
-        <!-- Hemos eliminado el sidebar-footer ya que lo moveremos al topbar -->
     </div>
 </div>
