@@ -31,20 +31,36 @@
             e.preventDefault();
             $('#sidebar').toggleClass('sidebar-collapsed');
             
+            // Forzar un reflow para asegurar que los cambios CSS se apliquen correctamente
+            // Esto soluciona problemas de renderizado en algunos navegadores
+            $('#sidebar')[0].offsetHeight;
+            
             // Guardar preferencia
             const isCollapsed = $('#sidebar').hasClass('sidebar-collapsed');
             localStorage.setItem('nova_sidebar_collapsed', isCollapsed);
             
             // Añadir atributos data-title a los enlaces cuando el sidebar está colapsado
-            if (isCollapsed) {
-                $('.nav-link').each(function() {
-                    const menuText = $(this).find('.menu-text').text().trim();
-                    if (menuText) {
-                        $(this).attr('data-title', menuText);
-                    }
-                });
-            }
+            updateMenuItemsForCollapsedState(isCollapsed);
         });
+        
+        // Función para actualizar elementos del menú según estado colapsado
+        function updateMenuItemsForCollapsedState(isCollapsed) {
+            $('.nav-link').each(function() {
+                const $this = $(this);
+                const menuText = $this.find('.menu-text').text().trim();
+                
+                if (menuText) {
+                    if (isCollapsed) {
+                        // Añadir título para tooltip y ajustar estilos para modo colapsado
+                        $this.attr('data-title', menuText);
+                        $this.addClass('collapsed-nav-link');
+                    } else {
+                        // Restaurar estado normal
+                        $this.removeClass('collapsed-nav-link');
+                    }
+                }
+            });
+        }
         
         // Manejador para enlaces con submenús
         $('.nav-link.has-dropdown').on('click', function(e) {
@@ -81,14 +97,9 @@
             });
         }
 
-        // Al cargar la página, si el sidebar está colapsado, añadir atributos data-title
+        // Al cargar la página, si el sidebar está colapsado, aplicar estilos necesarios
         if ($('#sidebar').hasClass('sidebar-collapsed')) {
-            $('.nav-link').each(function() {
-                const menuText = $(this).find('.menu-text').text().trim();
-                if (menuText) {
-                    $(this).attr('data-title', menuText);
-                }
-            });
+            updateMenuItemsForCollapsedState(true);
         }
     }
     
@@ -241,6 +252,7 @@
                 const menuText = $(this).find('.menu-text').text().trim();
                 if (menuText) {
                     $(this).attr('data-title', menuText);
+                    $(this).addClass('collapsed-nav-link');
                 }
             });
         }
