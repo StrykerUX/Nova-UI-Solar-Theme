@@ -14,13 +14,13 @@
   border-right: var(--nova-border-width) solid var(--nova-border-color);
   z-index: var(--nova-z-index-fixed);
   transition: width var(--nova-transition-medium);
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Estado colapsado de la barra lateral */
 .sidebar-collapsed {
-  width: 70px;
+  width: 70px !important;
 }
 
 /* Ajuste del contenido principal */
@@ -51,11 +51,18 @@
   font-size: var(--nova-font-size-lg);
   color: var(--nova-text-color);
   text-decoration: none;
+  width: 100%;
+  justify-content: center;
+}
+
+.sidebar:not(.sidebar-collapsed) .logo {
+  justify-content: flex-start;
 }
 
 .logo-icon {
   width: 40px;
   height: 40px;
+  min-width: 40px; /* Asegura que mantenga su tamaño incluso cuando el texto desaparece */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,25 +74,37 @@
 }
 
 .logo-text {
-  transition: opacity var(--nova-transition-medium), width var(--nova-transition-medium);
+  transition: opacity var(--nova-transition-fast), width var(--nova-transition-fast);
   white-space: nowrap;
 }
 
 /* Comportamiento del logo en modo colapsado */
-.sidebar-collapsed .logo-full {
+.sidebar-collapsed .logo-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
   display: none;
+}
+
+.logo-full {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .logo-icon-only {
   display: none;
 }
 
-.sidebar-collapsed .logo-icon-only {
-  display: block;
+.sidebar-collapsed .logo-full {
+  display: none;
 }
 
-.sidebar:not(.sidebar-collapsed) .logo-icon-only {
-  display: none;
+.sidebar-collapsed .logo-icon-only {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 /* Menú principal */
@@ -140,6 +159,7 @@
   border-radius: 0;
   position: relative;
   text-decoration: none;
+  overflow: hidden;
 }
 
 .nav-link:hover, .nav-link:focus, .nav-link.active {
@@ -163,8 +183,9 @@
 }
 
 .menu-text {
-  transition: opacity var(--nova-transition-medium), width var(--nova-transition-medium);
+  transition: opacity var(--nova-transition-fast), width var(--nova-transition-fast);
   white-space: nowrap;
+  overflow: hidden;
 }
 
 /* Comportamiento de elementos del menú cuando está colapsado */
@@ -175,12 +196,17 @@
 .sidebar-collapsed .menu-text {
   opacity: 0;
   width: 0;
-  overflow: hidden;
+  max-width: 0;
+  display: none;
+}
+
+.sidebar-collapsed .nav-link {
+  padding: var(--nova-spacing-sm) 0;
+  justify-content: center;
 }
 
 /* Tooltips para menú colapsado */
 .sidebar-collapsed .nav-link {
-  justify-content: center;
   position: relative;
 }
 
@@ -248,6 +274,22 @@
   margin-top: var(--nova-spacing-sm);
   color: var(--nova-primary);
   text-decoration: underline;
+}
+
+/* Corrección específica para el diseño Soft Neo-Brutalism */
+.soft-neo-brutalism .sidebar {
+  box-shadow: var(--nova-shadow-sm);
+}
+
+.soft-neo-brutalism .nav-link {
+  border-radius: var(--nova-border-radius-md);
+  margin: 2px var(--nova-spacing-sm);
+}
+
+.soft-neo-brutalism .sidebar-collapsed .nav-link {
+  margin: 2px auto;
+  width: 40px;
+  height: 40px;
 }
 
 /* Estilos para modo móvil */
