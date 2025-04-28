@@ -26,7 +26,7 @@
      * Inicializa la barra lateral y sus controles
      */
     function initSidebar() {
-        // Toggle para colapsar/expandir la barra lateral
+        // Toggle para colapsar/expandir la barra lateral (ahora en el topbar)
         $('#sidebar-toggle').on('click', function(e) {
             e.preventDefault();
             $('#sidebar').toggleClass('sidebar-collapsed');
@@ -34,11 +34,27 @@
             // Guardar preferencia
             const isCollapsed = $('#sidebar').hasClass('sidebar-collapsed');
             localStorage.setItem('nova_sidebar_collapsed', isCollapsed);
+            
+            // Añadir atributos data-title a los enlaces cuando el sidebar está colapsado
+            if (isCollapsed) {
+                $('.nav-link').each(function() {
+                    const menuText = $(this).find('.menu-text').text().trim();
+                    if (menuText) {
+                        $(this).attr('data-title', menuText);
+                    }
+                });
+            }
         });
         
         // Manejador para enlaces con submenús
         $('.nav-link.has-dropdown').on('click', function(e) {
             e.preventDefault();
+            
+            // Si la barra lateral está colapsada, no permitir expandir submenús
+            if ($('#sidebar').hasClass('sidebar-collapsed')) {
+                return;
+            }
+            
             const $this = $(this);
             const $parent = $this.parent();
             
@@ -62,6 +78,16 @@
             $('.mobile-menu-toggle').on('click', function(e) {
                 e.preventDefault();
                 $('#sidebar').toggleClass('open');
+            });
+        }
+
+        // Al cargar la página, si el sidebar está colapsado, añadir atributos data-title
+        if ($('#sidebar').hasClass('sidebar-collapsed')) {
+            $('.nav-link').each(function() {
+                const menuText = $(this).find('.menu-text').text().trim();
+                if (menuText) {
+                    $(this).attr('data-title', menuText);
+                }
             });
         }
     }
@@ -209,6 +235,14 @@
         const sidebarCollapsed = localStorage.getItem('nova_sidebar_collapsed');
         if (sidebarCollapsed === 'true') {
             $('#sidebar').addClass('sidebar-collapsed');
+            
+            // Añadir atributos data-title para tooltips
+            $('.nav-link').each(function() {
+                const menuText = $(this).find('.menu-text').text().trim();
+                if (menuText) {
+                    $(this).attr('data-title', menuText);
+                }
+            });
         }
         
         // Aplicar estilo visual
