@@ -11,7 +11,7 @@
     $(document).ready(function() {
         
         // Inicializar componentes
-        initSidebar();
+        // Nota: La función initSidebar se ha movido a sidebar-toggle.js
         initThemeToggle();
         initStyleSwitcher();
         initDropdowns();
@@ -21,87 +21,6 @@
         // Detectar y aplicar preferencias guardadas
         applyUserPreferences();
     });
-    
-    /**
-     * Inicializa la barra lateral y sus controles
-     */
-    function initSidebar() {
-        // Toggle para colapsar/expandir la barra lateral (ahora en el topbar)
-        $('#sidebar-toggle').on('click', function(e) {
-            e.preventDefault();
-            $('#sidebar').toggleClass('sidebar-collapsed');
-            
-            // Forzar un reflow para asegurar que los cambios CSS se apliquen correctamente
-            // Esto soluciona problemas de renderizado en algunos navegadores
-            $('#sidebar')[0].offsetHeight;
-            
-            // Guardar preferencia
-            const isCollapsed = $('#sidebar').hasClass('sidebar-collapsed');
-            localStorage.setItem('nova_sidebar_collapsed', isCollapsed);
-            
-            // Añadir atributos data-title a los enlaces cuando el sidebar está colapsado
-            updateMenuItemsForCollapsedState(isCollapsed);
-        });
-        
-        // Función para actualizar elementos del menú según estado colapsado
-        function updateMenuItemsForCollapsedState(isCollapsed) {
-            $('.nav-link').each(function() {
-                const $this = $(this);
-                const menuText = $this.find('.menu-text').text().trim();
-                
-                if (menuText) {
-                    if (isCollapsed) {
-                        // Añadir título para tooltip y ajustar estilos para modo colapsado
-                        $this.attr('data-title', menuText);
-                        $this.addClass('collapsed-nav-link');
-                    } else {
-                        // Restaurar estado normal
-                        $this.removeClass('collapsed-nav-link');
-                    }
-                }
-            });
-        }
-        
-        // Manejador para enlaces con submenús
-        $('.nav-link.has-dropdown').on('click', function(e) {
-            e.preventDefault();
-            
-            // Si la barra lateral está colapsada, no permitir expandir submenús
-            if ($('#sidebar').hasClass('sidebar-collapsed')) {
-                return;
-            }
-            
-            const $this = $(this);
-            const $parent = $this.parent();
-            
-            // Alternar estado expandido
-            $this.attr('aria-expanded', $this.attr('aria-expanded') === 'true' ? 'false' : 'true');
-            
-            // Mostrar/ocultar submenú
-            $parent.find('.dropdown-menu').toggleClass('show');
-            
-            // Rotar indicador
-            $this.find('.dropdown-indicator').toggleClass('rotate-180');
-        });
-        
-        // En dispositivos móviles, cerrar sidebar al hacer clic en un enlace
-        if ($(window).width() < 992) {
-            $('.sidebar .nav-link:not(.has-dropdown)').on('click', function() {
-                $('#sidebar').removeClass('open');
-            });
-            
-            // Botón para abrir/cerrar sidebar en móviles
-            $('.mobile-menu-toggle').on('click', function(e) {
-                e.preventDefault();
-                $('#sidebar').toggleClass('open');
-            });
-        }
-
-        // Al cargar la página, si el sidebar está colapsado, aplicar estilos necesarios
-        if ($('#sidebar').hasClass('sidebar-collapsed')) {
-            updateMenuItemsForCollapsedState(true);
-        }
-    }
     
     /**
      * Inicializa el selector de tema claro/oscuro
@@ -242,20 +161,7 @@
             $('#theme-toggle-btn').html('<i class="ti ti-moon theme-dark-icon"></i>');
         }
         
-        // Aplicar estado de la barra lateral (expandida/colapsada)
-        const sidebarCollapsed = localStorage.getItem('nova_sidebar_collapsed');
-        if (sidebarCollapsed === 'true') {
-            $('#sidebar').addClass('sidebar-collapsed');
-            
-            // Añadir atributos data-title para tooltips
-            $('.nav-link').each(function() {
-                const menuText = $(this).find('.menu-text').text().trim();
-                if (menuText) {
-                    $(this).attr('data-title', menuText);
-                    $(this).addClass('collapsed-nav-link');
-                }
-            });
-        }
+        // Nota: El estado de la barra lateral se maneja ahora en sidebar-toggle.js
         
         // Aplicar estilo visual
         const visualStyle = localStorage.getItem('nova_visual_style') || novaUIData.visualStyle || 'soft-neo-brutalism';
