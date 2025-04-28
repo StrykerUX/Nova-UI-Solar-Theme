@@ -9,7 +9,7 @@
 
 if (!defined('_S_VERSION')) {
     // Reemplazar el número de versión de cada lanzamiento.
-    define('_S_VERSION', '1.0.4');
+    define('_S_VERSION', '1.0.5');
 }
 
 /**
@@ -131,9 +131,10 @@ function nova_ui_solar_scripts() {
     // Cargar correcciones críticas (con máxima prioridad)
     wp_enqueue_style('nova-ui-critical-fixes', get_template_directory_uri() . '/assets/css/critical-fixes.css', array('nova-ui-solar-base', 'nova-ui-sidebar', 'nova-ui-sidebar-fix', 'nova-ui-solar-style'), _S_VERSION);
 
-    // Cargar scripts
+    // Cargar scripts (sidebar-toggle debe cargarse antes que main.js)
     wp_enqueue_script('bootstrap');
-    wp_enqueue_script('nova-ui-solar-main', get_template_directory_uri() . '/assets/js/main.js', array('jquery', 'bootstrap'), _S_VERSION, true);
+    wp_enqueue_script('nova-ui-sidebar-toggle', get_template_directory_uri() . '/assets/js/sidebar-toggle.js', array('jquery'), _S_VERSION, true);
+    wp_enqueue_script('nova-ui-solar-main', get_template_directory_uri() . '/assets/js/main.js', array('jquery', 'bootstrap', 'nova-ui-sidebar-toggle'), _S_VERSION, true);
 
     // Cargar ApexCharts solo en páginas que lo necesiten
     if (is_page_template('page-templates/dashboard.php')) {
@@ -141,7 +142,7 @@ function nova_ui_solar_scripts() {
     }
 
     // Pasar datos al script principal
-    wp_localize_script('nova-ui-solar-main', 'novaUIData', array(
+    wp_localize_script('nova-ui-sidebar-toggle', 'novaUIData', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('nova_ui_nonce'),
         'userTheme' => get_theme_mod('nova_ui_theme_mode', 'light'),
