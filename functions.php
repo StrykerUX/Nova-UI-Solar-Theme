@@ -9,7 +9,7 @@
 
 if (!defined('_S_VERSION')) {
     // Reemplazar el número de versión de cada lanzamiento.
-    define('_S_VERSION', '1.0.2');
+    define('_S_VERSION', '1.0.3');
 }
 
 /**
@@ -118,8 +118,11 @@ function nova_ui_solar_scripts() {
     // Cargar estilos base
     wp_enqueue_style('nova-ui-solar-base', get_template_directory_uri() . '/assets/css/base.css', array('bootstrap', 'tabler-icons'), _S_VERSION);
     
+    // Cargar componentes específicos
+    wp_enqueue_style('nova-ui-sidebar', get_template_directory_uri() . '/assets/css/components/sidebar.css', array('nova-ui-solar-base'), _S_VERSION);
+    
     // Cargar correcciones del sidebar
-    wp_enqueue_style('nova-ui-sidebar-fix', get_template_directory_uri() . '/assets/css/sidebar-fix.css', array('nova-ui-solar-base'), _S_VERSION);
+    wp_enqueue_style('nova-ui-sidebar-fix', get_template_directory_uri() . '/assets/css/sidebar-fix.css', array('nova-ui-solar-base', 'nova-ui-sidebar'), _S_VERSION);
     
     // Cargar estilo visual activo
     $active_style = get_theme_mod('nova_ui_visual_style', 'soft-neo-brutalism');
