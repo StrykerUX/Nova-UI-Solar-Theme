@@ -9,7 +9,7 @@
 
 if (!defined('_S_VERSION')) {
     // Reemplazar el número de versión de cada lanzamiento.
-    define('_S_VERSION', '1.0.3');
+    define('_S_VERSION', '1.0.4');
 }
 
 /**
@@ -127,6 +127,9 @@ function nova_ui_solar_scripts() {
     // Cargar estilo visual activo
     $active_style = get_theme_mod('nova_ui_visual_style', 'soft-neo-brutalism');
     wp_enqueue_style('nova-ui-solar-style', get_template_directory_uri() . '/assets/css/themes/' . $active_style . '.css', array('nova-ui-solar-base'), _S_VERSION);
+    
+    // Cargar correcciones críticas (con máxima prioridad)
+    wp_enqueue_style('nova-ui-critical-fixes', get_template_directory_uri() . '/assets/css/critical-fixes.css', array('nova-ui-solar-base', 'nova-ui-sidebar', 'nova-ui-sidebar-fix', 'nova-ui-solar-style'), _S_VERSION);
 
     // Cargar scripts
     wp_enqueue_script('bootstrap');
@@ -225,8 +228,11 @@ class Nova_UI_Sidebar_Menu_Walker extends Walker_Nav_Menu {
             }
         }
 
+        // Título del enlace para tooltips
+        $data_title = ' data-title="' . esc_attr($item->title) . '"';
+
         $item_output = $args->before;
-        $item_output .= '<a' . $attributes . '>';
+        $item_output .= '<a' . $attributes . $data_title . '>';
         $item_output .= '<span class="menu-icon"><i class="' . $icon_class . '"></i></span>';
         $item_output .= '<span class="menu-text">' . $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after . '</span>';
 
@@ -299,6 +305,26 @@ function nova_ui_solar_widgets_init() {
     );
 }
 add_action('widgets_init', 'nova_ui_solar_widgets_init');
+
+/**
+ * Función para forzar el estado colapsado del sidebar cuando cambia
+ */
+function nova_save_sidebar_state() {
+    // Verificar nonce por seguridad
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'nova_ui_nonce')) {
+        wp_send_json_error('Nonce no válido');
+    }
+
+    // Obtener el estado del sidebar
+    $is_collapsed = isset($_POST['is_collapsed']) ? filter_var($_POST['is_collapsed'], FILTER_VALIDATE_BOOLEAN) : false;
+
+    // Actualizar la opción del tema
+    set_theme_mod('nova_ui_sidebar_mode', $is_collapsed ? 'collapsed' : 'default');
+
+    wp_send_json_success(array('is_collapsed' => $is_collapsed));
+}
+add_action('wp_ajax_nova_save_sidebar_state', 'nova_save_sidebar_state');
+add_action('wp_ajax_nopriv_nova_save_sidebar_state', 'nova_save_sidebar_state');
 
 /**
  * Incluir archivos de plantillas de páginas personalizadas
